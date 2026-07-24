@@ -1,0 +1,34 @@
+﻿@page "/"
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+<PageTitle>Home</PageTitle>
+
+<div class="main">
+  <h1>Product</h1>
+  <ul class="product-cards">
+    @if (products != null)
+    {
+      @foreach (Product product in products)
+      {
+        @* <li style="background-image: url('@special.ImageUrl')"> *@
+          <div class="product-info">
+              <span class="title">@product.Name</span>
+                  @product.Description
+              <span class="price">@product.GetFormattedPrice()</span>
+              <span class="image">@product.ImageUrl</span>
+              <span class="id">@product.Id</span>
+          </div>
+        @* </li> *@
+      }
+    }
+  </ul>
+</div>
+
+@code {
+    List<Product> products = new List<Product>();
+    protected override async Task OnInitializedAsync()
+    {
+      products = await HttpClient.GetFromJsonAsync<List<Product>>(NavigationManager.BaseUri + "products");
+    }
+}
