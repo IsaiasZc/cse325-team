@@ -1,0 +1,40 @@
+﻿@rendermode InteractiveServer
+
+<div>
+    <div>
+        <a class="company-name" href="">Market Inventory Application</a>
+    </div>
+</div>
+<div>
+    <nav class="navegation">
+        <button class="hamburger" @onclick="ToggleMenu">
+            ☰
+        </button>
+        <div class="nav-menu @(menuOpen ? "open" : "")">
+            <div>
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span aria-hidden="false"></span> Home
+                </NavLink>
+            </div>
+            <div>
+                <NavLink class="nav-link" href="counter">
+                    <span aria-hidden="false"></span> Counter
+                </NavLink>
+            </div>
+            <div >
+                <NavLink class="nav-link" href="weather">
+                    <span aria-hidden="false"></span> Weather
+                </NavLink>
+            </div>
+        </div>
+    </nav>
+</div>
+
+@code {
+    private bool menuOpen = false;
+
+    private void ToggleMenu()
+    {
+        menuOpen = !menuOpen;
+    }
+}
