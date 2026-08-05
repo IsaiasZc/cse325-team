@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\momox\\OneDrive\\Escuela\\Documentos\\Patway\\cse325-team\\MarketInventoryApplication.csproj": {}
+    "f:\\Visual Studio Code\\Csharp\\cse325-team\\MarketInventoryApplication.csproj": {}
   },
   "projects": {
-    "C:\\Users\\momox\\OneDrive\\Escuela\\Documentos\\Patway\\cse325-team\\MarketInventoryApplication.csproj": {
+    "f:\\Visual Studio Code\\Csharp\\cse325-team\\MarketInventoryApplication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\momox\\OneDrive\\Escuela\\Documentos\\Patway\\cse325-team\\MarketInventoryApplication.csproj",
+        "projectUniqueName": "f:\\Visual Studio Code\\Csharp\\cse325-team\\MarketInventoryApplication.csproj",
         "projectName": "MarketInventoryApplication",
-        "projectPath": "C:\\Users\\momox\\OneDrive\\Escuela\\Documentos\\Patway\\cse325-team\\MarketInventoryApplication.csproj",
-        "packagesPath": "C:\\Users\\momox\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\momox\\OneDrive\\Escuela\\Documentos\\Patway\\cse325-team\\obj\\",
+        "projectPath": "f:\\Visual Studio Code\\Csharp\\cse325-team\\MarketInventoryApplication.csproj",
+        "packagesPath": "C:\\Users\\Iván Salamanca\\.nuget\\packages\\",
+        "outputPath": "f:\\Visual Studio Code\\Csharp\\cse325-team\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\momox\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Iván Salamanca\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
@@ -24,7 +24,6 @@
         },
         "frameworks": {
           "net10.0": {
-            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -39,17 +38,16 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "Microsoft.AspNetCore.App.Internal.Assets": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[10.0.9, )",
+              "version": "[10.0.0, )",
               "autoReferenced": true
             },
             "Microsoft.EntityFrameworkCore": {
@@ -84,7 +82,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

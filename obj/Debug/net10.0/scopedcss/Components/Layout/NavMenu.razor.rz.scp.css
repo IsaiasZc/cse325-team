@@ -1,6 +1,6 @@
 a[b-g62f1b4y1c], .nav-link[b-g62f1b4y1c]{
     text-decoration: none;
-    color: black;
+    color: white;
 }
 
 .navegation[b-g62f1b4y1c] {
@@ -16,13 +16,26 @@ a[b-g62f1b4y1c], .nav-link[b-g62f1b4y1c]{
     justify-content: center;
 }
 
-.company-name[b-g62f1b4y1c] {
-    font-size: 1.3rem;
+
+.nav-menu div[b-g62f1b4y1c] {
+    background-color: #611630;
+    border-radius: 1rem;
+    padding: 0.5rem 0.5rem;
+    text-align: center;
 }
 
-.nav-link[b-g62f1b4y1c] {
-    font-size: 1.1rem;
-    color: black;
+.company-name-container[b-g62f1b4y1c] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 0 2rem;
+}
+
+.company-name[b-g62f1b4y1c] {
+    font-size: 1rem;
+    color: white;
+    margin: 0 0 0 2rem;
+    width: max-content;
 }
 
 .hamburger[b-g62f1b4y1c] {
@@ -36,11 +49,14 @@ a[b-g62f1b4y1c], .nav-link[b-g62f1b4y1c]{
 @media (max-width: 600px) {
 
     .company-name[b-g62f1b4y1c]{
-        font-size: .7rem;
+        font-size: 0.8rem;
+        width: 4rem;
     }
 
     .hamburger[b-g62f1b4y1c] {
         display: block;
+        color: white;
+        margin: 0 0 0 7rem;
     }
 
     .nav-menu[b-g62f1b4y1c] {
@@ -51,19 +67,26 @@ a[b-g62f1b4y1c], .nav-link[b-g62f1b4y1c]{
         top: 60px;
         left: 0;
         width: 100%;
-        background: aqua;
+        background: #090969;
         padding: 20px;
+    }
+
+    .nav-menu div[b-g62f1b4y1c] {
+        margin: 1rem 5rem;
     }
 
     .nav-menu.open[b-g62f1b4y1c] {
         display: grid;
+        width: 86%;
     }
 
     .nav-link[b-g62f1b4y1c] {
         font-size: 1rem;
-        color: black;
-        border: 2px solid #3498db;
         padding: 20px;
         border-radius: 10px;
+    }
+
+    a.nav-link.active[b-g62f1b4y1c], a.nav-link[b-g62f1b4y1c]  {
+        margin: 1rem 1rem;
     }
 }

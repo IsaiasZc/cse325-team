@@ -1,6 +1,6 @@
 a, .nav-link{
     text-decoration: none;
-    color: black;
+    color: white;
 }
 
 .navegation {
@@ -16,13 +16,26 @@ a, .nav-link{
     justify-content: center;
 }
 
-.company-name {
-    font-size: 1.3rem;
+
+.nav-menu div {
+    background-color: #611630;
+    border-radius: 1rem;
+    padding: 0.5rem 0.5rem;
+    text-align: center;
 }
 
-.nav-link {
-    font-size: 1.1rem;
-    color: black;
+.company-name-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 0 2rem;
+}
+
+.company-name {
+    font-size: 1rem;
+    color: white;
+    margin: 0 0 0 2rem;
+    width: max-content;
 }
 
 .hamburger {
@@ -36,11 +49,14 @@ a, .nav-link{
 @media (max-width: 600px) {
 
     .company-name{
-        font-size: .7rem;
+        font-size: 0.8rem;
+        width: 4rem;
     }
 
     .hamburger {
         display: block;
+        color: white;
+        margin: 0 0 0 7rem;
     }
 
     .nav-menu {
@@ -51,19 +67,26 @@ a, .nav-link{
         top: 60px;
         left: 0;
         width: 100%;
-        background: aqua;
+        background: #090969;
         padding: 20px;
+    }
+
+    .nav-menu div {
+        margin: 1rem 5rem;
     }
 
     .nav-menu.open {
         display: grid;
+        width: 86%;
     }
 
     .nav-link {
         font-size: 1rem;
-        color: black;
-        border: 2px solid #3498db;
         padding: 20px;
         border-radius: 10px;
+    }
+
+    a.nav-link.active, a.nav-link  {
+        margin: 1rem 1rem;
     }
 }
