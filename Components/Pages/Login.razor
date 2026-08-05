@@ -1,4 +1,5 @@
 @page "/login"
+@using Microsoft.AspNetCore.Http.Extensions
 @inject AuthService AuthService
 @inject NavigationManager NavigationManager
 
@@ -61,12 +62,21 @@
             {
                 returnUrl = HttpContext.Request.Query["ReturnUrl"].ToString();
             }
-            if (string.IsNullOrEmpty(returnUrl) || !returnUrl.StartsWith("/"))
+            if (!IsLocalUrl(returnUrl))
             {
                 returnUrl = "/";
             }
             NavigationManager.NavigateTo(returnUrl);
         }
+    }
+
+    private static bool IsLocalUrl(string? url)
+    {
+        if (string.IsNullOrEmpty(url) || url[0] != '/')
+        {
+            return false;
+        }
+        return url.Length == 1 || (url[1] != '/' && url[1] != '\\');
     }
 
     private class LoginModel
