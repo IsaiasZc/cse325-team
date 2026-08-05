@@ -3,7 +3,7 @@
 - Jose Luis Izelo Mabarak
 - Isaias Zuñiga Correa
 - Lorenzo Ivan Salamanca
-
+- Gabriel Chagas Boff
 ---
 
 ### Market Inventory Application
