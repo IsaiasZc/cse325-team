@@ -1,0 +1,77 @@
+@page "/login"
+@inject AuthService AuthService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Login</PageTitle>
+
+<h1>Login</h1>
+
+@if (error != null)
+{
+    <p class="text-danger">@error</p>
+}
+
+<EditForm Model="model" method="post" FormName="login">
+    <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <InputText id="username" class="form-control" @bind-Value="model.UserName" autocomplete="username" />
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <InputText id="password" class="form-control" type="password" @bind-Value="model.Password" autocomplete="current-password" />
+    </div>
+    <button type="submit" class="btn btn-primary">Log in</button>
+</EditForm>
+
+@code {
+    [SupplyParameterFromForm]
+    private LoginModel model { get; set; } = new();
+
+    [CascadingParameter]
+    private HttpContext? HttpContext { get; set; }
+
+    private string? error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (HttpContext is null)
+        {
+            return;
+        }
+
+        if (HttpContext.User.Identity?.IsAuthenticated == true)
+        {
+            NavigationManager.NavigateTo("/");
+            return;
+        }
+
+        if (HttpContext.Request.Method == HttpMethods.Post)
+        {
+            User? user = await AuthService.AuthenticateAsync(model.UserName ?? "", model.Password ?? "");
+            if (user is null)
+            {
+                error = "Invalid username or password.";
+                return;
+            }
+
+            await AuthService.SignInAsync(HttpContext, user);
+
+            string? returnUrl = HttpContext.Request.Query["returnUrl"].ToString();
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                returnUrl = HttpContext.Request.Query["ReturnUrl"].ToString();
+            }
+            if (string.IsNullOrEmpty(returnUrl) || !returnUrl.StartsWith("/"))
+            {
+                returnUrl = "/";
+            }
+            NavigationManager.NavigateTo(returnUrl);
+        }
+    }
+
+    private class LoginModel
+    {
+        public string? UserName { get; set; }
+        public string? Password { get; set; }
+    }
+}
