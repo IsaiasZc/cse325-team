@@ -2,6 +2,7 @@ using MarketInventoryApplication.Components;
 using MarketInventoryApplication.Data;
 using MarketInventoryApplication.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddControllers();
 
-builder.Services.AddHttpClient();
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(sp.GetRequiredService<NavigationManager>().BaseUri) });
 builder.Services.AddSqlite<MarketInventoryContext>("Data Source=market.db");
 
 builder.Services.AddCascadingAuthenticationState();
@@ -50,8 +51,7 @@ app.MapRazorComponents<App>()
 
 app.MapControllers();
 
-var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
-using (var scope = scopeFactory.CreateScope())
+using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<MarketInventoryContext>();
     db.Database.Migrate();

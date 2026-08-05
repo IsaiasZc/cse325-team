@@ -1,8 +1,18 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+}
+
 .product-cards {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
     justify-content: center;
+    padding: 1rem 1rem !important;
 }
 .product-info {
     flex: 1;
@@ -15,15 +25,81 @@
     border-radius: 10px;
 }
 
+form.product-form {
+    width: fit-content;
+    max-width: 320px;
+    margin: 2rem auto 3rem;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.product-form .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.2rem;
+}
+
+.product-form label {
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: #333333;
+    font-size: 0.95rem;
+}
+
+.product-form .form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.4rem;
+    font-size: 1rem;
+    color: #495057;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.product-form .form-control:focus {
+    outline: none;
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.product-form textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.product-form .btn-primary {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    margin: 1rem 0 0 0;
+}
+
+
+.product-form .btn-primary:hover {
+    background-color: #0056b3;
+}
+
 @media (max-width: 950px) {
 
     .product-cards {
-        grid-template-columns: 1fr 2fr;
+        grid-template-columns: 1fr 1fr;
         justify-content: center;
         gap: 20px;
         top: 60px;
-        width: 80%;
-        padding: 20px;
+        width: 85%;
     }
 
 }
@@ -36,7 +112,6 @@
         gap: 20px;
         top: 60px;
         width: 60%;
-        padding: 20px;
     }
 
     .product-info {
