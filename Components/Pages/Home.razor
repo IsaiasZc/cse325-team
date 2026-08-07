@@ -3,59 +3,210 @@
 @inject HttpClient HttpClient
 @rendermode InteractiveServer
 @using Microsoft.AspNetCore.Components.Forms
-
 <PageTitle>Home</PageTitle>
 
-<div class="main">
-  <h1>Product</h1>
 
-  <EditForm Model="@newProduct" 
-    OnSubmit="@CreateProduct"
-    class="product-form">
-    <DataAnnotationsValidator />
+<div class="container-fluid py-4">
 
-    <div class="form-group">
-      <label for="name">Name</label>
-      <InputText id="name" class="form-control" @bind-Value="newProduct.Name" />
+    
+    <div class="mb-4">
+        <h1 class="fw-bold text-dark">
+            Product Management
+        </h1>
+
+        <p class="text-muted">
+            Create, edit and manage inventory products.
+        </p>
     </div>
 
-    <div class="form-group">
-      <label for="description">Description</label>
-      <InputTextArea id="description" class="form-control" @bind-Value="newProduct.Description" />
+
+    <!-- Product Form -->
+    <div class="card shadow-sm border-0 rounded-4 mb-5">
+
+        <div class="card-body p-4">
+
+            <h4 class="fw-semibold mb-4">
+                @(isEditing ? "Edit Product" : "Create New Product")
+            </h4>
+
+
+            <EditForm Model="@newProduct" 
+                OnSubmit="@CreateProduct"
+                class="product-form">
+
+                <DataAnnotationsValidator />
+
+
+                <div class="row g-3">
+
+
+                    <div class="col-md-6">
+                        <label for="name" class="form-label fw-semibold">
+                            Name
+                        </label>
+
+                        <InputText id="name"
+                                   class="form-control shadow-sm rounded-3"
+                                   @bind-Value="newProduct.Name" />
+                    </div>
+
+
+
+                    <div class="col-md-6">
+
+                        <label for="price" class="form-label fw-semibold">
+                            Price
+                        </label>
+
+                        <InputNumber id="price"
+                                     class="form-control shadow-sm rounded-3"
+                                     @bind-Value="newProduct.Price" />
+
+                    </div>
+
+
+
+                    <div class="col-12">
+
+                        <label for="description" class="form-label fw-semibold">
+                            Description
+                        </label>
+
+
+                        <InputTextArea id="description"
+                                       class="form-control shadow-sm rounded-3"
+                                       rows="4"
+                                       @bind-Value="newProduct.Description" />
+
+                    </div>
+
+
+
+
+                    <div class="col-12">
+
+                        <label for="imageUrl" class="form-label fw-semibold">
+                            Image URL
+                        </label>
+
+
+                        <InputText id="imageUrl"
+                                   class="form-control shadow-sm rounded-3"
+                                   @bind-Value="newProduct.ImageUrl" />
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="mt-4">
+
+                    <button type="submit"
+                            class="btn btn-primary px-4 rounded-pill shadow-sm">
+
+                        @(isEditing ? "Update Product" : "Add Product")
+
+                    </button>
+
+                </div>
+
+
+            </EditForm>
+
+
+        </div>
+
     </div>
 
-    <div class="form-group">
-      <label for="price">Price</label>
-      <InputNumber id="price" class="form-control" @bind-Value="newProduct.Price" />
+
+
+
+
+  
+
+    <div class="row g-4">
+
+
+        @if (products != null)
+        {
+
+            @foreach (Product product in products)
+            {
+
+
+                <div class="col-md-4">
+
+
+                    <div class="card h-100 shadow-sm border-0 rounded-4">
+
+
+                        <img src="@product.ImageUrl"
+                             class="card-img-top rounded-top-4"
+                             alt="Image of @product.Name"
+                             style="height:220px; object-fit:cover;" />
+
+
+
+                        <div class="card-body">
+
+
+                            <h5 class="card-title fw-bold">
+                                @product.Name
+                            </h5>
+
+
+                            <p class="card-text text-muted">
+                                @product.Description
+                            </p>
+
+
+                            <h5 class="text-primary fw-bold">
+                                @product.GetFormattedPrice()
+                            </h5>
+
+
+                        </div>
+
+
+
+                        <div class="card-footer bg-white border-0 p-3">
+
+
+                            <button class="btn btn-outline-primary rounded-pill me-2"
+                                    @onclick="@(() => EditProduct(product))">
+
+                                Edit
+
+                            </button>
+
+
+                            <button class="btn btn-outline-danger rounded-pill"
+                                    @onclick="@(() => DeleteProduct(product.Id))">
+
+                                Delete
+
+                            </button>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            }
+
+        }
+
+
     </div>
 
-    <div class="form-group">
-      <label for="imageUrl">Image URL</label>
-      <InputText id="imageUrl" class="form-control" @bind-Value="newProduct.ImageUrl" />
-    </div>
 
-    <button type="submit" class="btn btn-primary">@(isEditing ? "Update Product" : "Add Product")</button>
-  </EditForm>
-
-  <ul class="product-cards">
-    @if (products != null)
-    {
-      @foreach (Product product in products)
-      {
-        @* <li style="background-image: url('@special.ImageUrl')"> *@
-          <div class="product-info">
-              <span class="title">@product.Name</span>
-                  @product.Description
-              <span class="price">@product.GetFormattedPrice()</span>
-              <img src="@product.ImageUrl" alt="Image of @product.Name" style="max-width: 100%; height: auto;" />
-              @* <span class="id">@product.Id</span> *@
-              <button class="btn btn-primary" @onclick="@(() => EditProduct(product))">Edit</button>
-              <button class="btn btn-danger" @onclick="@(() => DeleteProduct(product.Id))">Delete</button>
-          </div>
-        @* </li> *@
-      }
-    }
-  </ul>
 </div>
 
 @code {
@@ -67,7 +218,7 @@
     {
         try
       {
-          products = await HttpClient.GetFromJsonAsync<List<Product>>("products");
+          products = await HttpClient.GetFromJsonAsync<List<Product>>("api/products");
       }
       catch (Exception ex)
       {
@@ -79,17 +230,17 @@
         HttpResponseMessage response;
         if (isEditing)
         {
-            response = await HttpClient.PutAsJsonAsync($"products/{newProduct.Id}", newProduct);
+            response = await HttpClient.PutAsJsonAsync($"api/products/{newProduct.Id}", newProduct);
         }
         else
         {
-            response = await HttpClient.PostAsJsonAsync("products", newProduct);
+            response = await HttpClient.PostAsJsonAsync("api/products", newProduct);
         }
         if (response.IsSuccessStatusCode)
         {
             newProduct = new Product();
             isEditing = false;
-            products = await HttpClient.GetFromJsonAsync<List<Product>>("products");
+            products = await HttpClient.GetFromJsonAsync<List<Product>>("api/products");
         }
     }
 
@@ -108,10 +259,10 @@
 
     private async Task DeleteProduct(int productId)
     {
-        var response = await HttpClient.DeleteAsync($"products/{productId}");
+        var response = await HttpClient.DeleteAsync($"api/products/{productId}");
         if (response.IsSuccessStatusCode)
         {
-          products = await HttpClient.GetFromJsonAsync<List<Product>>("products");
+          products = await HttpClient.GetFromJsonAsync<List<Product>>("api/products");
         }
     }
 }

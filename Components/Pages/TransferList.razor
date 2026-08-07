@@ -1,0 +1,457 @@
+@attribute [Authorize]
+@page "/transfers"
+@using MarketInventoryApplication.Data
+
+@inject ITransferService TransferService
+@inject MarketInventoryContext Db
+
+@rendermode InteractiveServer
+
+@using TransferEntity = MarketInventoryApplication.TransferList
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.EntityFrameworkCore
+
+
+
+<PageTitle>Transfer Management</PageTitle>
+
+
+<div class="container-fluid py-4 transfer-page">
+
+
+    <!-- Header -->
+    <div class="mb-4">
+
+        <h1 class="fw-bold text-dark">
+            Transfer Management
+        </h1>
+
+        <p class="text-muted">
+            Create, edit and manage inventory transfers.
+        </p>
+
+    </div>
+
+
+
+    <!-- Transfer Form Card -->
+    <div class="card shadow-sm border-0 rounded-4 mb-5">
+
+
+        <div class="card-body p-4">
+
+
+            <h4 class="mb-4 fw-semibold">
+
+                @(isEditing ? "Edit Transfer" : "Create New Transfer")
+
+            </h4>
+
+
+
+            <EditForm Model="@newTransfer"
+                      OnSubmit="SaveTransfer"
+                      FormName="transferForm">
+
+
+                <DataAnnotationsValidator />
+
+
+                <div class="row g-3">
+
+
+                    <!-- Product -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label fw-semibold">
+                            Product
+                        </label>
+
+
+                        <InputSelect class="form-select shadow-sm"
+                                     @bind-Value="newTransfer.ProductId">
+
+
+                            <option value="0">
+                                Select Product
+                            </option>
+
+
+                            @foreach(var product in products)
+                            {
+                                <option value="@product.Id">
+                                    @product.Name
+                                </option>
+                            }
+
+
+                        </InputSelect>
+
+
+                    </div>
+
+
+
+
+                    <!-- Location -->
+
+                    <div class="col-md-4">
+
+
+                        <label class="form-label fw-semibold">
+                            Location
+                        </label>
+
+
+                        <InputSelect class="form-select shadow-sm"
+                                     @bind-Value="newTransfer.LocationId">
+
+
+                            <option value="0">
+                                Select Location
+                            </option>
+
+
+                            @foreach(var location in locations)
+                            {
+                                <option value="@location.Id">
+                                    @location.Name
+                                </option>
+                            }
+
+
+                        </InputSelect>
+
+
+                    </div>
+
+
+
+
+                    <!-- Quantity -->
+
+                    <div class="col-md-4">
+
+
+                        <label class="form-label fw-semibold">
+                            Quantity
+                        </label>
+
+
+                        <InputNumber class="form-control shadow-sm"
+                                     @bind-Value="newTransfer.Quantity" />
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="mt-4">
+
+
+                    <button class="btn btn-primary px-4 rounded-pill shadow-sm"
+                            type="submit">
+
+
+                        @if(isEditing)
+                        {
+                            <span>
+                                Update Transfer
+                            </span>
+                        }
+                        else
+                        {
+                            <span>
+                                Add Transfer
+                            </span>
+                        }
+
+
+                    </button>
+
+
+                    @if(isEditing)
+                    {
+
+                        <button type="button"
+                                class="btn btn-secondary ms-2 px-4 rounded-pill"
+                                @onclick="() => { newTransfer = new TransferEntity(); isEditing=false; }">
+
+
+                            Cancel
+
+
+                        </button>
+
+                    }
+
+
+                </div>
+
+
+
+            </EditForm>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    
+
+    <div class="card shadow-sm border-0 rounded-4">
+
+
+        <div class="card-body p-4">
+
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+
+                <h4 class="fw-semibold mb-0">
+                    Existing Transfers
+                </h4>
+
+
+                <span class="badge bg-primary rounded-pill">
+
+                    @transfers.Count Transfers
+
+                </span>
+
+
+            </div>
+
+
+
+
+            @if(transfers.Count == 0)
+            {
+
+                <div class="alert alert-info">
+
+                    No transfers found.
+
+                </div>
+
+            }
+
+            else
+            {
+
+
+            <div class="table-responsive">
+
+
+            <table class="table table-hover align-middle">
+
+
+            <thead class="table-dark">
+
+
+            <tr>
+
+            <th>Product</th>
+
+            <th>Location</th>
+
+            <th>Quantity</th>
+
+            <th>Modified By</th>
+
+            <th>Date</th>
+
+            <th class="text-center">
+                Actions
+            </th>
+
+
+            </tr>
+
+
+            </thead>
+
+
+
+            <tbody>
+
+
+            @foreach(var transfer in transfers)
+            {
+
+
+            <tr>
+
+
+            <td class="fw-semibold">
+
+                @transfer.Product?.Name
+
+            </td>
+
+
+
+            <td>
+
+                @transfer.Location?.Name
+
+            </td>
+
+
+
+            <td>
+
+                <span class="badge bg-secondary">
+                    @transfer.Quantity
+                </span>
+
+            </td>
+
+
+
+            <td>
+
+                @transfer.ModifiedByUser?.Name
+
+            </td>
+
+
+
+            <td>
+
+                @transfer.ModifiedDate.ToString("dd MMM yyyy")
+
+            </td>
+
+
+
+            <td class="text-center">
+
+
+                <button class="btn btn-outline-warning btn-sm rounded-pill me-2"
+                        @onclick="() => EditTransfer(transfer)">
+
+
+                    Edit
+
+
+                </button>
+
+
+
+                <button class="btn btn-outline-danger btn-sm rounded-pill"
+                        @onclick="() => DeleteTransfer(transfer.Id)">
+
+
+                    Delete
+
+
+                </button>
+
+
+            </td>
+
+
+            </tr>
+
+
+            }
+
+
+            </tbody>
+
+
+            </table>
+
+
+            </div>
+
+
+            }
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+@code {
+private TransferEntity newTransfer = new();
+private bool isEditing = false;
+private List<Product> products = new();
+private List<Location> locations = new();
+private List<TransferEntity> transfers = new();
+protected override async Task OnInitializedAsync()
+{
+products = await Db.Products
+    .ToListAsync();
+
+
+locations = await Db.Locations
+    .OrderBy(x => x.Name)
+    .ToListAsync();
+
+
+transfers = await TransferService
+    .GetTransfersAsync();
+}
+private async Task SaveTransfer()
+{
+if (isEditing)
+{
+    await TransferService
+        .UpdateTransferAsync(newTransfer);
+}
+else
+{
+    await TransferService
+        .CreateTransferAsync(newTransfer);
+}
+
+
+transfers = await TransferService
+    .GetTransfersAsync();
+
+
+newTransfer = new TransferEntity();
+
+isEditing = false;
+}
+private async Task DeleteTransfer(int id)
+{
+await TransferService
+    .DeleteTransferAsync(id);
+
+
+transfers = await TransferService
+    .GetTransfersAsync();
+}
+private void EditTransfer(TransferEntity transfer)
+{
+newTransfer = new TransferEntity
+{
+    Id = transfer.Id,
+
+    ProductId = transfer.ProductId,
+
+    LocationId = transfer.LocationId,
+
+    Quantity = transfer.Quantity
+};
+
+
+isEditing = true;
+}
+}

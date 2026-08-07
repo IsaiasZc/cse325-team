@@ -1,92 +1,179 @@
-a, .nav-link{
-    text-decoration: none;
-    color: white;
-}
+/* Whole navigation */
 
 .navegation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
 }
 
-.nav-menu {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    column-gap: 20px;
-    justify-content: center;
+
+/* Company name */
+
+.company-name-container {
+
+    display:flex;
+    align-items:center;
+
 }
+
+
+.company-name {
+
+    color:white;
+    font-size:1.4rem;
+    font-weight:700;
+    text-decoration:none;
+    letter-spacing:.5px;
+
+}
+
+
+
+/* Menu */
+
+.nav-menu {
+
+    display:flex;
+    align-items:center;
+    gap:1rem;
+
+}
+
 
 
 .nav-menu div {
-    background-color: #611630;
-    border-radius: 1rem;
-    padding: 0.5rem 0.5rem;
-    text-align: center;
+
+    background:none;
+    padding:0;
+
 }
 
-.company-name-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 0 0 2rem;
+
+
+/* Links */
+
+.nav-link {
+
+    color:#e5e7eb;
+    text-decoration:none;
+
+    padding:.65rem 1.2rem;
+
+    border-radius:12px;
+
+    font-weight:500;
+
+    transition:.2s;
+
 }
 
-.company-name {
-    font-size: 1rem;
-    color: white;
-    margin: 0 0 0 2rem;
-    width: max-content;
+
+
+.nav-link:hover {
+
+    background:#334155;
+    color:white;
+
 }
+
+
+
+.nav-link.active {
+
+    background:#2563eb;
+    color:white;
+
+}
+
+
+
+/* Logout */
+
+.nav-menu a[href="logout"] {
+
+
+    background:#ef4444;
+
+    color:white;
+
+    border-radius:999px;
+
+}
+
+
+
+.nav-menu a[href="logout"]:hover {
+
+    background:#dc2626;
+
+}
+
+
+
+/* Mobile button */
 
 .hamburger {
-    display: none;
-    font-size: 30px;
-    background: none;
-    border: none;
-    cursor: pointer;
+
+    display:none;
+
+    background:none;
+
+    border:none;
+
+    color:white;
+
+    font-size:30px;
+
 }
 
-@media (max-width: 600px) {
 
-    .company-name{
-        font-size: 0.8rem;
-        width: 4rem;
-    }
+
+@media(max-width:768px){
+
 
     .hamburger {
-        display: block;
-        color: white;
-        margin: 0 0 0 7rem;
+
+        display:block;
+
     }
+
 
     .nav-menu {
-        display: none;
-        grid-template-columns: 1fr;
-        justify-content: center;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        width: 100%;
-        background: #090969;
-        padding: 20px;
+
+        display:none;
+
+        position:absolute;
+
+        top:70px;
+
+        left:0;
+
+        width:100%;
+
+        background:#111827;
+
+        padding:1rem;
+
+        flex-direction:column;
+
     }
 
-    .nav-menu div {
-        margin: 1rem 5rem;
-    }
 
     .nav-menu.open {
-        display: grid;
-        width: 86%;
+
+        display:flex;
+
     }
+
 
     .nav-link {
-        font-size: 1rem;
-        padding: 20px;
-        border-radius: 10px;
+
+        width:100%;
+        text-align:center;
+
     }
 
-    a.nav-link.active, a.nav-link  {
-        margin: 1rem 1rem;
-    }
 }

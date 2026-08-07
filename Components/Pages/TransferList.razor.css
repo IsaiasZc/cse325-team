@@ -1,0 +1,150 @@
+.transfer-page {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+
+/* Page header */
+
+h1 {
+    color: #1f2937;
+    letter-spacing: -0.5px;
+}
+
+
+p {
+    color: #6b7280;
+}
+
+
+
+/* Cards */
+
+.card {
+    border-radius: 16px;
+    transition: all 0.2s ease-in-out;
+}
+
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+
+
+/* Form */
+
+.form-label {
+    color: #374151;
+}
+
+
+.form-control,
+.form-select {
+    border-radius: 12px;
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+}
+
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 .2rem rgba(37,99,235,.15);
+}
+
+
+
+/* Buttons */
+
+.btn {
+    transition: all .2s ease;
+}
+
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+
+.btn-primary {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+}
+
+
+
+/* Table */
+
+.table {
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+
+.table thead th {
+    font-weight: 600;
+    letter-spacing: .3px;
+}
+
+
+.table tbody tr {
+    transition: background-color .2s ease;
+}
+
+
+.table tbody tr:hover {
+    background-color: #f1f5f9;
+}
+
+
+
+/* Badges */
+
+.badge {
+    padding: 7px 12px;
+    font-size: .85rem;
+}
+
+
+
+/* Action buttons */
+
+.btn-outline-warning,
+.btn-outline-danger {
+    border-width: 2px;
+}
+
+
+.btn-outline-warning:hover {
+    color: white;
+}
+
+
+.btn-outline-danger:hover {
+    color: white;
+}
+
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+    .card-body {
+        padding: 1rem !important;
+    }
+
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+}

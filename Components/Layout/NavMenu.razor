@@ -1,51 +1,157 @@
 ﻿@rendermode InteractiveServer
 
-<div>
-    <div class="company-name-container"> 
-        <a class="company-name" href="">Market Inventory Application</a>
-    </div>
-</div>
-<div>
-    <nav class="navegation">
-        <button class="hamburger" @onclick="ToggleMenu">
-            ☰
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm inventory-navbar">
+
+    <div class="container-fluid">
+
+
+        <!-- Company Logo -->
+
+        <a class="navbar-brand fw-bold company-brand" href="">
+            <span class="brand-icon">
+                📦
+            </span>
+            Market Inventory
+        </a>
+
+
+
+        <!-- Mobile Button -->
+
+        <button class="navbar-toggler"
+                type="button"
+                @onclick="ToggleMenu">
+
+            <span class="navbar-toggler-icon"></span>
+
         </button>
-        <div class="nav-menu @(menuOpen ? "open" : "")">
-            <AuthorizeView>
-                <Authorized>
-                    <div>
-                        <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                            <span aria-hidden="false"></span> Home
-                        </NavLink>
-                    </div>
-                    <AuthorizeView Roles="@Roles.Administrator" Context="adminContext">
-                        <div>
-                            <NavLink class="nav-link" href="users">
-                                <span aria-hidden="false"></span> Users
+
+
+
+        <!-- Navigation -->
+
+        <div class="@(menuOpen ? "navbar-collapse show" : "navbar-collapse collapse")">
+
+
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+
+
+                <AuthorizeView>
+
+
+                    <Authorized>
+
+
+                        <li class="nav-item">
+
+                            <NavLink class="nav-link"
+                                     href=""
+                                     Match="NavLinkMatch.All">
+
+                                Home
+
                             </NavLink>
-                        </div>
-                    </AuthorizeView>
-                    <div>
-                        <a class="nav-link" href="logout">Logout</a>
-                    </div>
-                </Authorized>
-                <NotAuthorized>
-                    <div>
-                        <NavLink class="nav-link" href="login">
-                            <span aria-hidden="false"></span> Login
-                        </NavLink>
-                    </div>
-                </NotAuthorized>
-            </AuthorizeView>
+
+                        </li>
+
+
+
+                        <li class="nav-item">
+
+                            <NavLink class="nav-link"
+                                     href="transfers">
+
+                                Transfer List
+
+                            </NavLink>
+
+                        </li>
+
+
+
+                        <AuthorizeView Roles="@Roles.Administrator"
+                                      Context="adminContext">
+
+
+                            <li class="nav-item">
+
+                                <NavLink class="nav-link"
+                                         href="users">
+
+                                    Users
+
+                                </NavLink>
+
+                            </li>
+
+
+                        </AuthorizeView>
+
+
+
+
+                        <li class="nav-item ms-lg-3">
+
+
+                            <a class="btn btn-danger logout-btn"
+                               href="logout">
+
+                                Logout
+
+                            </a>
+
+
+                        </li>
+
+
+
+                    </Authorized>
+
+
+
+                    <NotAuthorized>
+
+
+                        <li class="nav-item">
+
+                            <NavLink class="btn btn-primary login-btn"
+                                     href="login">
+
+                                Login
+
+                            </NavLink>
+
+
+                        </li>
+
+
+                    </NotAuthorized>
+
+
+                </AuthorizeView>
+
+
+            </ul>
+
+
         </div>
-    </nav>
-</div>
+
+
+    </div>
+
+
+</nav>
+
+
 
 @code {
+
     private bool menuOpen = false;
+
 
     private void ToggleMenu()
     {
         menuOpen = !menuOpen;
     }
+
 }
