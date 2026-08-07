@@ -12,6 +12,6 @@
         {
             await AuthService.SignOutAsync(HttpContext);
         }
-        NavigationManager.NavigateTo("/login");
+        NavigationManager.NavigateTo("/login", forceLoad: true);
     }
 }
