@@ -9,5 +9,9 @@ namespace MarketInventoryApplication
         public string Name { get; set; }
         public string Password { get; set; }
         public int Level { get; set; }
+
+        public bool IsAdmin => Level >= 2;
+
+        public string RoleName => IsAdmin ? Roles.Administrator : Roles.User;
     }
 }

@@ -11,21 +11,32 @@
             ☰
         </button>
         <div class="nav-menu @(menuOpen ? "open" : "")">
-            <div>
-                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                    <span aria-hidden="false"></span> Home
-                </NavLink>
-            </div>
-            <div>
-                <NavLink class="nav-link" href="counter">
-                    <span aria-hidden="false"></span> Counter
-                </NavLink>
-            </div>
-            <div >
-                <NavLink class="nav-link" href="weather">
-                    <span aria-hidden="false"></span> Weather
-                </NavLink>
-            </div>
+            <AuthorizeView>
+                <Authorized>
+                    <div>
+                        <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                            <span aria-hidden="false"></span> Home
+                        </NavLink>
+                    </div>
+                    <AuthorizeView Roles="@Roles.Administrator" Context="adminContext">
+                        <div>
+                            <NavLink class="nav-link" href="users">
+                                <span aria-hidden="false"></span> Users
+                            </NavLink>
+                        </div>
+                    </AuthorizeView>
+                    <div>
+                        <a class="nav-link" href="logout">Logout</a>
+                    </div>
+                </Authorized>
+                <NotAuthorized>
+                    <div>
+                        <NavLink class="nav-link" href="login">
+                            <span aria-hidden="false"></span> Login
+                        </NavLink>
+                    </div>
+                </NotAuthorized>
+            </AuthorizeView>
         </div>
     </nav>
 </div>

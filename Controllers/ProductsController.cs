@@ -24,6 +24,7 @@ public class ProductsController : Controller
     [HttpPost]
     public async Task<ActionResult<Product>> CreateProduct(Product product)
     {
+        product.Id = 0;
         _db.Products.Add(product);
         await _db.SaveChangesAsync();
 
