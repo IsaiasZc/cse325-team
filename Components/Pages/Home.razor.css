@@ -16,8 +16,10 @@
 }
 
 .search-panel {
-    width: min(100%, 640px);
+    width: min(100%, 1100px);
     margin: 0 auto 1rem;
+    padding: 0 1rem;
+    box-sizing: border-box;
 }
 
 .search-panel label {
@@ -25,6 +27,7 @@
     margin-bottom: 0.4rem;
     font-weight: 600;
     color: #333333;
+    font-size: 0.95rem;
 }
 
 .search-panel .form-control {
@@ -33,7 +36,10 @@
     border: 1px solid #ced4da;
     border-radius: 0.4rem;
     font-size: 1rem;
+    color: #495057;
+    background-color: #ffffff;
     box-sizing: border-box;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .search-panel .form-control:focus {
@@ -58,22 +64,33 @@
     border-radius: 10px;
 }
 
-form.product-form {
-    width: fit-content;
-    max-width: 320px;
+::deep form.product-form {
+    width: min(100%, 1100px);
     margin: 2rem auto 3rem;
     padding: 2rem;
     background-color: #f8f9fa;
     border: 1px solid #dee2e6;
     border-radius: 0.5rem;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: dense;
+    gap: 0 1.5rem;
 }
 
 .product-form .form-group {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     margin-bottom: 1.2rem;
+}
+
+.product-form .form-group-full {
+    grid-column: 1 / -1;
+}
+.product-form .btn-primary {
+    grid-column: 1 / -1;
 }
 
 .product-form label {
@@ -83,7 +100,7 @@ form.product-form {
     font-size: 0.95rem;
 }
 
-.product-form .form-control {
+.product-form ::deep .form-control {
     width: 100%;
     padding: 0.75rem;
     border: 1px solid #ced4da;
@@ -95,13 +112,13 @@ form.product-form {
     transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-.product-form .form-control:focus {
+.product-form ::deep .form-control:focus {
     outline: none;
     border-color: #86b7fe;
     box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
-.product-form textarea.form-control {
+.product-form ::deep textarea.form-control {
     resize: vertical;
     min-height: 100px;
 }
@@ -138,6 +155,10 @@ form.product-form {
 }
 
 @media (max-width: 600px) {
+
+    ::deep form.product-form {
+        grid-template-columns: 1fr;
+    }
 
     .product-cards {
         grid-template-columns: 1fr;
