@@ -14,6 +14,39 @@
     justify-content: center;
     padding: 1rem 1rem !important;
 }
+
+.search-panel {
+    width: min(100%, 640px);
+    margin: 0 auto 1rem;
+}
+
+.search-panel label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    color: #333333;
+}
+
+.search-panel .form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.4rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.search-panel .form-control:focus {
+    outline: none;
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.no-results {
+    margin: 2rem 0;
+    color: #666666;
+}
+
 .product-info {
     flex: 1;
     display: flex;
