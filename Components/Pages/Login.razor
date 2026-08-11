@@ -21,12 +21,16 @@
         <label for="password" class="form-label">Password</label>
         <InputText id="password" class="form-control" type="password" @bind-Value="model.Password" autocomplete="current-password" />
     </div>
-    <button type="submit" class="btn btn-primary">Log in</button>
+    <div class="d-flex gap-2 align-items-center">
+        <button type="submit" class="btn btn-primary">Log in</button>
+        <span>or</span>
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/register'">Create new user</button>
+    </div>
 </EditForm>
 
 @code {
     [SupplyParameterFromForm]
-    private LoginModel model { get; set; } = new();
+    private LoginModel model { get; set; } = default!;
 
     [CascadingParameter]
     private HttpContext? HttpContext { get; set; }
@@ -35,6 +39,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        model ??= new LoginModel ();
         if (HttpContext is null)
         {
             return;

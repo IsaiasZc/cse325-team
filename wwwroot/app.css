@@ -59,3 +59,20 @@ h1:focus {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
+
+article.content {
+    justify-content: center;
+}
+
+form {
+    margin: 0 0 3rem 0;
+    justify-items: center;
+}
+
+.d-flex.gap-2.align-items-center {
+    margin: 1rem 0 0 0;
+}
+
+.mb-3 {
+    margin: 1rem 0 1rem 0;
+}
