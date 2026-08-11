@@ -9,6 +9,17 @@
 <div class="main">
   <h1>Product</h1>
 
+  <div class="search-panel">
+    <label for="product-search">Search inventory</label>
+    <input id="product-search"
+           type="search"
+           class="form-control"
+           placeholder="Search products by name"
+           aria-label="Search inventory by product name"
+           @bind="searchTerm"
+           @bind:event="oninput" />
+  </div>
+
   <EditForm Model="@newProduct" 
     OnSubmit="@CreateProduct"
     class="product-form">
@@ -19,7 +30,7 @@
       <InputText id="name" class="form-control" @bind-Value="newProduct.Name" />
     </div>
 
-    <div class="form-group">
+    <div class="form-group form-group-full">
       <label for="description">Description</label>
       <InputTextArea id="description" class="form-control" @bind-Value="newProduct.Description" />
     </div>
@@ -29,7 +40,7 @@
       <InputNumber id="price" class="form-control" @bind-Value="newProduct.Price" />
     </div>
 
-    <div class="form-group">
+    <div class="form-group form-group-full">
       <label for="imageUrl">Image URL</label>
       <InputText id="imageUrl" class="form-control" @bind-Value="newProduct.ImageUrl" />
     </div>
@@ -37,31 +48,35 @@
     <button type="submit" class="btn btn-primary">@(isEditing ? "Update Product" : "Add Product")</button>
   </EditForm>
 
-  <ul class="product-cards">
-    @if (products != null)
-    {
-      @foreach (Product product in products)
+  @if (filteredProducts.Any())
+  {
+    <ul class="product-cards">
+      @foreach (Product product in filteredProducts)
       {
-        @* <li style="background-image: url('@special.ImageUrl')"> *@
-          <div class="product-info">
-              <span class="title">@product.Name</span>
-                  @product.Description
-              <span class="price">@product.GetFormattedPrice()</span>
-              <img src="@product.ImageUrl" alt="Image of @product.Name" style="max-width: 100%; height: auto;" />
-              @* <span class="id">@product.Id</span> *@
-              <button class="btn btn-primary" @onclick="@(() => EditProduct(product))">Edit</button>
-              <button class="btn btn-danger" @onclick="@(() => DeleteProduct(product.Id))">Delete</button>
-          </div>
-        @* </li> *@
+        <div class="product-info">
+            <span class="title">@product.Name</span>
+                @product.Description
+            <span class="price">@product.GetFormattedPrice()</span>
+            <img src="@product.ImageUrl" alt="Image of @product.Name" style="max-width: 100%; height: auto;" />
+            @* <span class="id">@product.Id</span> *@
+            <button class="btn btn-primary" @onclick="@(() => EditProduct(product))">Edit</button>
+            <button class="btn btn-danger" @onclick="@(() => DeleteProduct(product.Id))">Delete</button>
+        </div>
       }
-    }
-  </ul>
+    </ul>
+  }
+  else if (!string.IsNullOrWhiteSpace(searchTerm))
+  {
+    <p class="no-results">No products found matching "@searchTerm".</p>
+  }
 </div>
 
 @code {
     private bool isEditing = false;
     private Product newProduct = new Product();
     List<Product> products = new List<Product>();
+    private string searchTerm = string.Empty;
+    private IEnumerable<Product> filteredProducts => ProductSearch.Filter(products, searchTerm);
 
     protected override async Task OnInitializedAsync()
     {
