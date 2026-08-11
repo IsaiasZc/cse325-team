@@ -19,56 +19,57 @@
            @bind="searchTerm"
            @bind:event="oninput" />
   </div>
+  <div class="form_and_products_grid">
+    <EditForm Model="@newProduct" 
+      OnSubmit="@CreateProduct"
+      class="product-form">
+      <DataAnnotationsValidator />
 
-  <EditForm Model="@newProduct" 
-    OnSubmit="@CreateProduct"
-    class="product-form">
-    <DataAnnotationsValidator />
+      <div class="form-group">
+        <label for="name">Name</label>
+        <InputText id="name" class="form-control" @bind-Value="newProduct.Name" />
+      </div>
 
-    <div class="form-group">
-      <label for="name">Name</label>
-      <InputText id="name" class="form-control" @bind-Value="newProduct.Name" />
-    </div>
+      <div class="form-group form-group-full">
+        <label for="description">Description</label>
+        <InputTextArea id="description" class="form-control" @bind-Value="newProduct.Description" />
+      </div>
 
-    <div class="form-group form-group-full">
-      <label for="description">Description</label>
-      <InputTextArea id="description" class="form-control" @bind-Value="newProduct.Description" />
-    </div>
+      <div class="form-group">
+        <label for="price">Price</label>
+        <InputNumber id="price" class="form-control" @bind-Value="newProduct.Price" />
+      </div>
 
-    <div class="form-group">
-      <label for="price">Price</label>
-      <InputNumber id="price" class="form-control" @bind-Value="newProduct.Price" />
-    </div>
+      <div class="form-group form-group-full">
+        <label for="imageUrl">Image URL</label>
+        <InputText id="imageUrl" class="form-control" @bind-Value="newProduct.ImageUrl" />
+      </div>
 
-    <div class="form-group form-group-full">
-      <label for="imageUrl">Image URL</label>
-      <InputText id="imageUrl" class="form-control" @bind-Value="newProduct.ImageUrl" />
-    </div>
+      <button type="submit" class="btn btn-primary">@(isEditing ? "Update Product" : "Add Product")</button>
+    </EditForm>
 
-    <button type="submit" class="btn btn-primary">@(isEditing ? "Update Product" : "Add Product")</button>
-  </EditForm>
-
-  @if (filteredProducts.Any())
-  {
-    <ul class="product-cards">
-      @foreach (Product product in filteredProducts)
-      {
-        <div class="product-info">
-            <span class="title">@product.Name</span>
-                @product.Description
-            <span class="price">@product.GetFormattedPrice()</span>
-            <img src="@product.ImageUrl" alt="Image of @product.Name" style="max-width: 100%; height: auto;" />
-            @* <span class="id">@product.Id</span> *@
-            <button class="btn btn-primary" @onclick="@(() => EditProduct(product))">Edit</button>
-            <button class="btn btn-danger" @onclick="@(() => DeleteProduct(product.Id))">Delete</button>
-        </div>
-      }
-    </ul>
-  }
-  else if (!string.IsNullOrWhiteSpace(searchTerm))
-  {
-    <p class="no-results">No products found matching "@searchTerm".</p>
-  }
+    @if (filteredProducts.Any())
+    {
+      <ul class="product-cards">
+        @foreach (Product product in filteredProducts)
+        {
+          <div class="product-info">
+              <span class="title">@product.Name</span>
+                  @product.Description
+              <span class="price">@product.GetFormattedPrice()</span>
+              <img src="@product.ImageUrl" alt="Image of @product.Name" style="max-width: 100%; height: auto;" />
+              @* <span class="id">@product.Id</span> *@
+              <button class="btn btn-primary" @onclick="@(() => EditProduct(product))">Edit</button>
+              <button class="btn btn-danger" @onclick="@(() => DeleteProduct(product.Id))">Delete</button>
+          </div>
+        }
+      </ul>
+    }
+    else if (!string.IsNullOrWhiteSpace(searchTerm))
+    {
+      <p class="no-results">No products found matching "@searchTerm".</p>
+    }
+  </div>
 </div>
 
 @code {

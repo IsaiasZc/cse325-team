@@ -67,6 +67,15 @@ article.content {
 form {
     margin: 0 0 3rem 0;
     justify-items: center;
+    height: 24rem;
+}
+
+.form_and_products_grid {
+    justify-items: center;
+}
+
+.product-info {
+    gap: 0.5rem;
 }
 
 .d-flex.gap-2.align-items-center {
@@ -75,4 +84,11 @@ form {
 
 .mb-3 {
     margin: 1rem 0 1rem 0;
+}
+
+@media (min-width: 740px) {
+    .form_and_products_grid {
+        display: flex;
+        flex-direction: row;
+    }
 }
