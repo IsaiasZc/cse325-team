@@ -1,92 +1,197 @@
-a, .nav-link{
+/* =========================================================
+   INVENTORY NAVBAR
+   ========================================================= */
+
+.inventory-navbar {
+    min-height: 72px;
+
+    background: linear-gradient(
+        135deg,
+        #111827,
+        #1e293b
+    );
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+
+    padding: 0.65rem 0;
+}
+
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.company-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    color: #ffffff !important;
+
+    font-size: 1.35rem;
+    letter-spacing: -0.3px;
+
     text-decoration: none;
-    color: white;
 }
 
-.navegation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.company-brand:hover {
+    color: #ffffff !important;
 }
 
-.nav-menu {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    column-gap: 20px;
-    justify-content: center;
+.brand-icon {
+    font-size: 1.25rem;
 }
 
 
-.nav-menu div {
-    background-color: #611630;
-    border-radius: 1rem;
-    padding: 0.5rem 0.5rem;
-    text-align: center;
-}
+/* =========================================================
+   NAVIGATION LINKS
+   ========================================================= */
 
-.company-name-container {
+.inventory-navbar .nav-link {
+    position: relative;
+
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin: 0 0 0 2rem;
+
+    min-height: 42px;
+
+    padding: 0.55rem 0.9rem !important;
+
+    color: #cbd5e1 !important;
+
+    border-radius: 8px;
+
+    font-size: 0.95rem;
+    font-weight: 500;
+
+    text-decoration: none;
+
+    transition:
+        color 0.15s ease,
+        background-color 0.15s ease;
 }
 
-.company-name {
-    font-size: 1rem;
-    color: white;
-    margin: 0 0 0 2rem;
-    width: max-content;
+
+/* Hover */
+
+.inventory-navbar .nav-link:hover {
+    color: #ffffff !important;
+
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
-.hamburger {
-    display: none;
-    font-size: 30px;
-    background: none;
-    border: none;
-    cursor: pointer;
+
+/* =========================================================
+   ACTIVE PAGE
+   ========================================================= */
+
+.inventory-navbar .nav-link.active {
+    color: #ffffff !important;
+
+    background-color: rgba(37, 99, 235, 0.25);
+
+    font-weight: 600;
 }
 
-@media (max-width: 600px) {
 
-    .company-name{
-        font-size: 0.8rem;
-        width: 4rem;
+/* Active blue indicator */
+
+.inventory-navbar .nav-link.active::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 3px;
+
+    height: 2px;
+
+    background-color: #60a5fa;
+
+    border-radius: 999px;
+}
+
+
+/* =========================================================
+   LOGIN BUTTON
+   ========================================================= */
+
+.login-btn {
+    min-width: 85px;
+
+    padding: 0.55rem 1.15rem;
+
+    border-radius: 8px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   LOGOUT BUTTON
+   ========================================================= */
+
+.logout-btn {
+    min-width: 85px;
+
+    padding: 0.55rem 1.15rem;
+
+    border-radius: 8px;
+
+    font-weight: 600;
+
+    border: 1px solid #dc3545;
+}
+
+
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
+
+.navbar-toggler {
+    padding: 0.4rem 0.55rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+
+    .inventory-navbar {
+        padding: 0.75rem 0;
     }
 
-    .hamburger {
-        display: block;
-        color: white;
-        margin: 0 0 0 7rem;
+    .inventory-navbar .navbar-collapse {
+        padding-top: 0.75rem;
     }
 
-    .nav-menu {
-        display: none;
-        grid-template-columns: 1fr;
-        justify-content: center;
-        position: absolute;
-        top: 60px;
-        left: 0;
+    .inventory-navbar .nav-link {
         width: 100%;
-        background: #090969;
-        padding: 20px;
+
+        padding: 0.7rem 0.85rem !important;
     }
 
-    .nav-menu div {
-        margin: 1rem 5rem;
+    .inventory-navbar .nav-link.active::after {
+        left: 0.85rem;
+        right: auto;
+
+        width: 35px;
+
+        bottom: 5px;
     }
 
-    .nav-menu.open {
-        display: grid;
-        width: 86%;
+    .logout-btn,
+    .login-btn {
+        width: 100%;
+
+        margin-top: 0.25rem;
     }
 
-    .nav-link {
-        font-size: 1rem;
-        padding: 20px;
-        border-radius: 10px;
-    }
-
-    a.nav-link.active, a.nav-link  {
-        margin: 1rem 1rem;
-    }
 }

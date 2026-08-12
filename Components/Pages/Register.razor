@@ -4,53 +4,197 @@
 
 <PageTitle>Create User</PageTitle>
 
-<h1>Create a New Account</h1>
+<div class="container py-5">
 
-@if (error != null)
-{
-    <p class="text-danger">@error</p>
-}
+    <div class="row justify-content-center">
 
-<EditForm Model="model" method="post" FormName="register" OnValidSubmit="HandleRegistration">
-    <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <InputText id="username" class="form-control" @bind-Value="model.UserName" autocomplete="new-username" required />
+        <div class="col-12 col-sm-10 col-md-8 col-lg-5">
+
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <div class="card-body p-4 p-md-5">
+
+
+                    <div class="text-center mb-4">
+
+                        <h1 class="fw-bold text-dark mb-2">
+                            Create Account
+                        </h1>
+
+                        <p class="text-muted mb-0">
+                            Create a new Market Inventory account
+                        </p>
+
+                    </div>
+
+
+                    //Error Message 
+
+                    @if (error != null)
+                    {
+                        <div class="alert alert-danger rounded-3 mb-4">
+                            @error
+                        </div>
+                    }
+
+
+                    // Registration Form 
+
+                    <EditForm Model="model"
+                              method="post"
+                              FormName="register"
+                              OnValidSubmit="HandleRegistration">
+
+                       
+
+                        <div class="mb-3">
+
+                            <label for="username"
+                                   class="form-label fw-semibold">
+
+                                Username
+
+                            </label>
+
+                            <InputText id="username"
+                                       class="form-control form-control-lg rounded-3 shadow-sm"
+                                       @bind-Value="model.UserName"
+                                       autocomplete="new-username"
+                                       required />
+
+                        </div>
+
+
+                        
+
+                        <div class="mb-3">
+
+                            <label for="password"
+                                   class="form-label fw-semibold">
+
+                                Password
+
+                            </label>
+
+                            <InputText id="password"
+                                       class="form-control form-control-lg rounded-3 shadow-sm"
+                                       type="password"
+                                       @bind-Value="model.Password"
+                                       autocomplete="new-password"
+                                       required />
+
+                        </div>
+
+
+                        // Confirm Password
+
+                        <div class="mb-3">
+
+                            <label for="confirmPassword"
+                                   class="form-label fw-semibold">
+
+                                Confirm Password
+
+                            </label>
+
+                            <InputText id="confirmPassword"
+                                       class="form-control form-control-lg rounded-3 shadow-sm"
+                                       type="password"
+                                       @bind-Value="model.ConfirmPassword"
+                                       autocomplete="new-password"
+                                       required />
+
+                        </div>
+
+
+                        <!-- Account Role -->
+
+                        <div class="mb-4">
+
+                            <label for="level"
+                                   class="form-label fw-semibold">
+
+                                Account Role
+
+                            </label>
+
+                            <InputSelect id="level"
+                                         class="form-select form-select-lg rounded-3 shadow-sm"
+                                         @bind-Value="model.Level">
+
+                                <option value="1">
+                                    Standard User (Level 1)
+                                </option>
+
+                                <option value="2">
+                                    Admin / Manager (Level 2)
+                                </option>
+
+                            </InputSelect>
+
+                        </div>
+
+
+                        
+
+                        <button type="submit"
+                                class="btn btn-primary btn-lg w-100 rounded-pill shadow-sm">
+
+                            Create Account
+
+                        </button>
+
+
+                       
+
+                        <div class="text-center mt-4">
+
+                            <span class="text-muted">
+                                Already have an account?
+                            </span>
+
+                            <a href="/login"
+                               class="text-primary text-decoration-none fw-semibold ms-1">
+
+                                Log in
+
+                            </a>
+
+                        </div>
+
+                    </EditForm>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
-    <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <InputText id="password" class="form-control" type="password" @bind-Value="model.Password" autocomplete="new-password" required />
-    </div>
-    <div class="mb-3">
-        <label for="confirmPassword" class="form-label">Confirm Password</label>
-        <InputText id="confirmPassword" class="form-control" type="password" @bind-Value="model.ConfirmPassword" autocomplete="new-password" required />
-    </div>
-    <div class="mb-3">
-        <label for="level" class="form-label">Account Role</label>
-        <InputSelect id="level" class="form-select" @bind-Value="model.Level">
-            <option value="1">Standard User (Level 1)</option>
-            <option value="2">Admin / Manager (Level 2)</option>
-        </InputSelect>
-    </div>
-    <button type="submit" class="btn btn-success">Create Account</button>
-    <a href="/login" class="btn btn-link">Cancel</a>
-</EditForm>
+
+</div>
+
 
 @code {
+
     [SupplyParameterFromForm]
     private RegisterModel model { get; set; } = default!;
 
     private string? error;
 
+
     protected override void OnInitialized()
     {
-        model ??= new(); 
+        model ??= new();
     }
+
 
     private async Task HandleRegistration()
     {
         error = null;
 
-        if (string.IsNullOrWhiteSpace(model.UserName) || string.IsNullOrWhiteSpace(model.Password))
+        if (string.IsNullOrWhiteSpace(model.UserName) ||
+            string.IsNullOrWhiteSpace(model.Password))
         {
             error = "Username and password are required.";
             return;
@@ -62,7 +206,11 @@
             return;
         }
 
-        var result = await AuthService.CreateUserAsync(model.UserName, model.Password, model.Level);
+        var result = await AuthService.CreateUserAsync(
+            model.UserName,
+            model.Password,
+            model.Level
+        );
 
         if (result.Success)
         {
@@ -74,11 +222,16 @@
         }
     }
 
+
     private class RegisterModel
     {
         public string? UserName { get; set; }
+
         public string? Password { get; set; }
+
         public string? ConfirmPassword { get; set; }
+
         public int Level { get; set; } = 1;
     }
+
 }

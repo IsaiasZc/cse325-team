@@ -1,5 +1,4 @@
 using MarketInventoryApplication.Services;
-using Microsoft.EntityFrameworkCore;
 
 namespace MarketInventoryApplication.Data;
 
@@ -7,6 +6,7 @@ public static class SeedData
 {
     public static void Initialize(MarketInventoryContext db)
     {
+        // Seed Products
         if (!db.Products.Any())
         {
             var products = new Product[]
@@ -59,10 +59,12 @@ public static class SeedData
                     ImageUrl = "https://images.unsplash.com/photo-1683314573424-b0da0c795a07?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                 },
             };
+
             db.Products.AddRange(products);
             db.SaveChanges();
         }
 
+        // Seed Users
         if (!db.Users.Any())
         {
             var users = new User[]
@@ -80,7 +82,66 @@ public static class SeedData
                     Level = 1,
                 },
             };
+
             db.Users.AddRange(users);
+            db.SaveChanges();
+        }
+
+        // Seed Locations
+        if (!db.Locations.Any())
+        {
+            var locations = new Location[]
+            {
+                new Location()
+                {
+                    Name = "Warehouse"
+                },
+                new Location()
+                {
+                    Name = "Front Store"
+                },
+                new Location()
+                {
+                    Name = "Storage Room"
+                }
+            };
+
+            db.Locations.AddRange(locations);
+            db.SaveChanges();
+        }
+
+        // Seed Transfer List
+        if (!db.TransferList.Any())
+        {
+            var transfers = new TransferList[]
+            {
+                new TransferList()
+                {
+                    ProductId = 1,
+                    LocationId = 1,
+                    ModifiedByUserId = 1,
+                    Quantity = 20,
+                    ModifiedDate = DateTime.UtcNow
+                },
+                new TransferList()
+                {
+                    ProductId = 2,
+                    LocationId = 2,
+                    ModifiedByUserId = 2,
+                    Quantity = 15,
+                    ModifiedDate = DateTime.UtcNow
+                },
+                new TransferList()
+                {
+                    ProductId = 3,
+                    LocationId = 3,
+                    ModifiedByUserId = 1,
+                    Quantity = 30,
+                    ModifiedDate = DateTime.UtcNow
+                }
+            };
+
+            db.TransferList.AddRange(transfers);
             db.SaveChanges();
         }
     }

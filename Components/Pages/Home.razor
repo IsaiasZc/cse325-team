@@ -1,133 +1,481 @@
-﻿@page "/"
+@page "/"
 @attribute [Authorize]
 @inject HttpClient HttpClient
 @rendermode InteractiveServer
 @using Microsoft.AspNetCore.Components.Forms
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Product Management</PageTitle>
 
-<div class="main">
-  <h1>Product</h1>
+<div class="product-page">
 
-  <div class="search-panel">
-    <label for="product-search">Search inventory</label>
-    <input id="product-search"
-           type="search"
-           class="form-control"
-           placeholder="Search products by name"
-           aria-label="Search inventory by product name"
-           @bind="searchTerm"
-           @bind:event="oninput" />
-  </div>
-  <div class="form_and_products_grid">
-    <EditForm Model="@newProduct" 
-      OnSubmit="@CreateProduct"
-      class="product-form">
-      <DataAnnotationsValidator />
+    
+    <div class="product-header">
 
-      <div class="form-group">
-        <label for="name">Name</label>
-        <InputText id="name" class="form-control" @bind-Value="newProduct.Name" />
-      </div>
+        <div>
+            <div class="page-eyebrow">
+                INVENTORY MANAGEMENT
+            </div>
 
-      <div class="form-group form-group-full">
-        <label for="description">Description</label>
-        <InputTextArea id="description" class="form-control" @bind-Value="newProduct.Description" />
-      </div>
+            <h1>Product Management</h1>
 
-      <div class="form-group">
-        <label for="price">Price</label>
-        <InputNumber id="price" class="form-control" @bind-Value="newProduct.Price" />
-      </div>
+            <p>
+                Create, edit and manage inventory products.
+            </p>
+        </div>
 
-      <div class="form-group form-group-full">
-        <label for="imageUrl">Image URL</label>
-        <InputText id="imageUrl" class="form-control" @bind-Value="newProduct.ImageUrl" />
-      </div>
+        <div class="product-summary">
+            <div class="summary-icon">
+                📦
+            </div>
 
-      <button type="submit" class="btn btn-primary">@(isEditing ? "Update Product" : "Add Product")</button>
-    </EditForm>
+            <div>
+                <span class="summary-label">Total Products</span>
+                <strong>@products.Count</strong>
+            </div>
+        </div>
 
+    </div>
+
+
+    
+    <div class="product-card search-card">
+
+        <div class="card-content">
+
+            <label for="product-search" class="form-label">
+                Search Inventory
+            </label>
+
+            <div class="search-input-wrapper">
+
+                <span class="search-icon">
+                    🔍
+                </span>
+
+                <input id="product-search"
+                       type="search"
+                       class="form-control product-input search-input"
+                       placeholder="Search products by name..."
+                       aria-label="Search inventory by product name"
+                       @bind="searchTerm"
+                       @bind:event="oninput" />
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    
+    <div class="product-card form-card">
+
+        <div class="card-header-custom">
+
+            <div class="card-title-section">
+
+                <div class="card-icon">
+                    @(isEditing ? "✎" : "+")
+                </div>
+
+                <div>
+
+                    <h2>
+                        @(isEditing ? "Edit Product" : "Create New Product")
+                    </h2>
+
+                    <p>
+                        @(isEditing
+                            ? "Update the details of this product."
+                            : "Enter the details below to create a new inventory product.")
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card-content">
+
+            <EditForm Model="@newProduct"
+                      OnSubmit="@CreateProduct"
+                      class="product-form">
+
+                <DataAnnotationsValidator />
+
+                <div class="product-form-grid">
+
+                    <!-- Name -->
+                    <div class="form-field">
+
+                        <label for="name" class="form-label">
+                            Product Name
+                            <span class="required">*</span>
+                        </label>
+
+                        <InputText id="name"
+                                   class="form-control product-input"
+                                   placeholder="Enter product name"
+                                   @bind-Value="newProduct.Name" />
+
+                    </div>
+
+
+                    
+                    <div class="form-field">
+
+                        <label for="price" class="form-label">
+                            Price
+                            <span class="required">*</span>
+                        </label>
+
+                        <InputNumber id="price"
+                                     class="form-control product-input"
+                                     placeholder="0.00"
+                                     @bind-Value="newProduct.Price" />
+
+                    </div>
+
+
+                    
+                    <div class="form-field full-width">
+
+                        <label for="description" class="form-label">
+                            Description
+                        </label>
+
+                        <InputTextArea id="description"
+                                       class="form-control product-input"
+                                       rows="3"
+                                       placeholder="Enter a short product description..."
+                                       @bind-Value="newProduct.Description" />
+
+                    </div>
+
+
+                    
+                    <div class="form-field full-width">
+
+                        <label for="imageUrl" class="form-label">
+                            Image URL
+                        </label>
+
+                        <InputText id="imageUrl"
+                                   class="form-control product-input"
+                                   placeholder="https://example.com/image.jpg"
+                                   @bind-Value="newProduct.ImageUrl" />
+
+                    </div>
+
+                </div>
+
+
+                
+                <div class="form-actions">
+
+                    <button type="submit"
+                            class="btn product-primary">
+
+                        @(isEditing ? "Update Product" : "Add Product")
+
+                    </button>
+
+                    @if (isEditing)
+                    {
+                        <button type="button"
+                                class="btn product-secondary"
+                                @onclick="CancelEdit">
+
+                            Cancel
+
+                        </button>
+                    }
+
+                </div>
+
+            </EditForm>
+
+        </div>
+
+    </div>
+
+
+   
     @if (filteredProducts.Any())
     {
-      <ul class="product-cards">
-        @foreach (Product product in filteredProducts)
-        {
-          <div class="product-info">
-              <span class="title">@product.Name</span>
-                  @product.Description
-              <span class="price">@product.GetFormattedPrice()</span>
-              <img src="@product.ImageUrl" alt="Image of @product.Name" style="max-width: 100%; height: auto;" />
-              @* <span class="id">@product.Id</span> *@
-              <button class="btn btn-primary" @onclick="@(() => EditProduct(product))">Edit</button>
-              <button class="btn btn-danger" @onclick="@(() => DeleteProduct(product.Id))">Delete</button>
-          </div>
-        }
-      </ul>
+        <div class="products-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Inventory Products</h2>
+
+                    <p>
+                        Current products available in your inventory.
+                    </p>
+                </div>
+
+                <div class="product-count">
+                    @filteredProducts.Count()
+                    <span>Products</span>
+                </div>
+
+            </div>
+
+
+            <div class="product-grid">
+
+                @foreach (Product product in filteredProducts)
+                {
+                    <div class="product-card product-item">
+
+                        <!-- Image -->
+                        <div class="product-image-wrapper">
+
+                            @if (!string.IsNullOrWhiteSpace(product.ImageUrl))
+                            {
+                                <img src="@product.ImageUrl"
+                                     class="product-image"
+                                     alt="Image of @product.Name" />
+                            }
+                            else
+                            {
+                                <div class="product-image-placeholder">
+                                    📦
+                                </div>
+                            }
+
+                        </div>
+
+
+                        
+                        <div class="product-body">
+
+                            <div class="product-name-row">
+
+                                <h3>
+                                    @product.Name
+                                </h3>
+
+                            </div>
+
+                            <p class="product-description">
+                                @(string.IsNullOrWhiteSpace(product.Description)
+                                    ? "No description available."
+                                    : product.Description)
+                            </p>
+
+                            <div class="product-price">
+                                @product.GetFormattedPrice()
+                            </div>
+
+                        </div>
+
+
+                        
+                        <div class="product-actions">
+
+                            <button class="btn action-edit"
+                                    @onclick="@(() => EditProduct(product))">
+
+                                Edit
+
+                            </button>
+
+                            <button class="btn action-delete"
+                                    @onclick="@(() => DeleteProduct(product.Id))">
+
+                                Delete
+
+                            </button>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
     }
     else if (!string.IsNullOrWhiteSpace(searchTerm))
     {
-      <p class="no-results">No products found matching "@searchTerm".</p>
+        <div class="product-card empty-state">
+
+            <div class="empty-icon">
+                🔍
+            </div>
+
+            <h3>No products found</h3>
+
+            <p>
+                No products match
+                "<strong>@searchTerm</strong>".
+            </p>
+
+        </div>
     }
-  </div>
+    else
+    {
+        <div class="product-card empty-state">
+
+            <div class="empty-icon">
+                📦
+            </div>
+
+            <h3>No products available</h3>
+
+            <p>
+                Create a product to get started.
+            </p>
+
+        </div>
+    }
+
 </div>
 
+
+
 @code {
+
     private bool isEditing = false;
+
     private Product newProduct = new Product();
-    List<Product> products = new List<Product>();
+
+    private List<Product> products = new List<Product>();
+
+
+    // Search functionality from main branch
+
     private string searchTerm = string.Empty;
-    private IEnumerable<Product> filteredProducts => ProductSearch.Filter(products, searchTerm);
+
+    private IEnumerable<Product> filteredProducts =>
+        ProductSearch.Filter(products, searchTerm);
+
+
 
     protected override async Task OnInitializedAsync()
     {
+
         try
-      {
-          products = await HttpClient.GetFromJsonAsync<List<Product>>("products");
-      }
-      catch (Exception ex)
-      {
-          Console.WriteLine($"ERROR AL CARGAR PRODUCTOS: {ex.Message}");
-      }
+        {
+
+            products = await HttpClient
+                .GetFromJsonAsync<List<Product>>("api/products")
+                ?? new List<Product>();
+
+        }
+        catch (Exception ex)
+        {
+
+            Console.WriteLine(
+                $"ERROR AL CARGAR PRODUCTOS: {ex.Message}"
+            );
+
+        }
+
     }
+
+
+
     private async Task CreateProduct()
     {
+
         HttpResponseMessage response;
+
+
         if (isEditing)
         {
-            response = await HttpClient.PutAsJsonAsync($"products/{newProduct.Id}", newProduct);
+
+            response = await HttpClient.PutAsJsonAsync(
+                $"api/products/{newProduct.Id}",
+                newProduct
+            );
+
         }
         else
         {
-            response = await HttpClient.PostAsJsonAsync("products", newProduct);
+
+            response = await HttpClient.PostAsJsonAsync(
+                "api/products",
+                newProduct
+            );
+
         }
+
+
         if (response.IsSuccessStatusCode)
         {
+
             newProduct = new Product();
+
             isEditing = false;
-            products = await HttpClient.GetFromJsonAsync<List<Product>>("products");
+
+
+            products = await HttpClient
+                .GetFromJsonAsync<List<Product>>("api/products")
+                ?? new List<Product>();
+
         }
+
     }
+
+
 
     private void EditProduct(Product product)
     {
+
         isEditing = true;
+
+
         newProduct = new Product
         {
+
             Id = product.Id,
+
             Name = product.Name,
+
             Description = product.Description,
+
             Price = product.Price,
+
             ImageUrl = product.ImageUrl
+
         };
+
     }
+
+
+
+    private void CancelEdit()
+    {
+
+        newProduct = new Product();
+
+        isEditing = false;
+
+    }
+
+
 
     private async Task DeleteProduct(int productId)
     {
-        var response = await HttpClient.DeleteAsync($"products/{productId}");
+
+        var response = await HttpClient
+            .DeleteAsync($"api/products/{productId}");
+
+
         if (response.IsSuccessStatusCode)
         {
-          products = await HttpClient.GetFromJsonAsync<List<Product>>("products");
+
+            products = await HttpClient
+                .GetFromJsonAsync<List<Product>>("api/products")
+                ?? new List<Product>();
+
         }
+
     }
+
 }

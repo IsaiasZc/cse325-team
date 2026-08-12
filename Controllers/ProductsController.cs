@@ -4,7 +4,7 @@ using MarketInventoryApplication.Data;
 
 namespace MarketInventoryApplication.Controllers;
 
-[Route("products")]
+[Route("api/products")]
 [ApiController]
 public class ProductsController : Controller
 {

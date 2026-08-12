@@ -1,3 +1,4 @@
+using System.Globalization;
 namespace MarketInventoryApplication
 {
     public class Product
@@ -9,7 +10,7 @@ namespace MarketInventoryApplication
         public string ImageUrl { get; set; }
         public string GetFormattedPrice()
         {
-            return Price.ToString("0.00");
+            return Price.ToString("C2", CultureInfo.GetCultureInfo("en-US"));
         }
     }
 }
