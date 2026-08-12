@@ -2,210 +2,254 @@
 @attribute [Authorize(Roles = "Administrator")]
 @inject AuthService AuthService
 
-<PageTitle>Users</PageTitle>
+<PageTitle>User Management</PageTitle>
 
-<div class="container-fluid py-4">
-
-
-    <div class="mb-4">
-
-        <h1 class="fw-bold text-dark">
-            User Management
-        </h1>
-
-        <p class="text-muted">
-            Create and manage application users and permissions.
-        </p>
-
-    </div>
-
-
+<div class="user-page">
 
     
-
-    <div class="card shadow-sm border-0 rounded-4 mb-5">
-
-        <div class="card-body p-4">
-
-
-            <h2 class="fw-semibold mb-4">
-                Create User
-            </h2>
-
-
-
-            @if (message != null)
-            {
-                <div class="alert @(isError ? "alert-danger" : "alert-success") rounded-3">
-                    @message
-                </div>
-            }
-
-
-
-            <EditForm Model="createModel"
-                      method="post"
-                      FormName="createUser">
-
-
-                <div class="row g-3">
-
-
-                    <div class="col-md-6">
-
-                        <label for="username"
-                               class="form-label fw-semibold">
-
-                            Username
-
-                        </label>
-
-
-                        <InputText id="username"
-                                   class="form-control rounded-3"
-                                   @bind-Value="createModel.Name"
-                                   autocomplete="off" />
-
-
-                    </div>
-
-
-
-
-                    <div class="col-md-6">
-
-
-                        <label for="password"
-                               class="form-label fw-semibold">
-
-                            Password
-
-                        </label>
-
-
-                        <InputText id="password"
-                                   class="form-control rounded-3"
-                                   type="password"
-                                   @bind-Value="createModel.Password"
-                                   autocomplete="new-password" />
-
-
-                    </div>
-
-
-
-
-                    <div class="col-md-6">
-
-
-                        <label for="role"
-                               class="form-label fw-semibold">
-
-                            Role
-
-                        </label>
-
-
-                        <InputSelect id="role"
-                                     class="form-select rounded-3"
-                                     @bind-Value="createModel.Level">
-
-
-                            <option value="2">
-                                Administrator
-                            </option>
-
-
-                            <option value="1">
-                                User
-                            </option>
-
-
-                        </InputSelect>
-
-
-                    </div>
-
-
-                </div>
-
-
-
-
-                <div class="mt-4">
-
-
-                    <button type="submit"
-                            class="btn btn-primary px-4 rounded-pill shadow-sm">
-
-                        Create User
-
-                    </button>
-
-
-                </div>
-
-
-            </EditForm>
-
+    <div class="user-header">
+
+        <div>
+            <div class="page-eyebrow">
+                ACCOUNT ADMINISTRATION
+            </div>
+
+            <h1>User Management</h1>
+
+            <p>
+                Create and manage application users and permissions.
+            </p>
+        </div>
+
+        <div class="user-summary">
+
+            <div class="summary-icon">
+                👤
+            </div>
+
+            <div>
+                <span class="summary-label">
+                    Total Users
+                </span>
+
+                <strong>
+                    @(users?.Count ?? 0)
+                </strong>
+            </div>
 
         </div>
 
     </div>
 
 
+   
+    <div class="user-card create-user-card">
 
+        <div class="user-card-header">
+
+            <div class="card-title-section">
+
+                <div class="card-icon">
+                    +
+                </div>
+
+                <div>
+                    <h2>Create User</h2>
+
+                    <p>
+                        Add a new user and assign their application role.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="user-card-content">
+
+            @if (message != null)
+            {
+                <div class="alert @(isError ? "alert-danger" : "alert-success") user-alert">
+                    @message
+                </div>
+            }
+
+
+            <EditForm Model="createModel"
+                      method="post"
+                      FormName="createUser">
+
+                <div class="user-form-grid">
+
+                    <!-- Username -->
+                    <div class="user-form-field">
+
+                        <label for="username">
+                            Username
+                            <span class="required">*</span>
+                        </label>
+
+                        <InputText id="username"
+                                   class="form-control user-input"
+                                   @bind-Value="createModel.Name"
+                                   autocomplete="off" />
+
+                    </div>
+
+
+                    <!-- Password -->
+                    <div class="user-form-field">
+
+                        <label for="password">
+                            Password
+                            <span class="required">*</span>
+                        </label>
+
+                        <InputText id="password"
+                                   class="form-control user-input"
+                                   type="password"
+                                   @bind-Value="createModel.Password"
+                                   autocomplete="new-password" />
+
+                    </div>
+
+
+                   
+                    <div class="user-form-field">
+
+                        <label for="role">
+                            Role
+                            <span class="required">*</span>
+                        </label>
+
+                        <InputSelect id="role"
+                                     class="form-select user-input"
+                                     @bind-Value="createModel.Level">
+
+                            <option value="2">
+                                Administrator
+                            </option>
+
+                            <option value="1">
+                                User
+                            </option>
+
+                        </InputSelect>
+
+                    </div>
+
+                </div>
+
+
+                <div class="user-form-actions">
+
+                    <button type="submit"
+                            class="btn user-primary-button">
+
+                        Create User
+
+                    </button>
+
+                </div>
+
+            </EditForm>
+
+        </div>
+
+    </div>
 
 
     
+    <div class="user-card">
 
-    <div class="card shadow-sm border-0 rounded-4">
+        <div class="user-card-header">
 
+            <div class="card-title-section">
 
-        <div class="card-body p-4">
+                <div class="card-icon blue-icon">
+                    ≡
+                </div>
 
+                <div>
+                    <h2>Existing Users</h2>
 
-            <div class="d-flex justify-content-between align-items-center mb-3">
-
-
-                <h2 class="fw-semibold mb-0">
-                    Existing Users
-                </h2>
-
-
-                <span class="badge bg-primary rounded-pill">
-
-                    @(users?.Count ?? 0) Users
-
-                </span>
-
+                    <p>
+                        View users and their assigned application roles.
+                    </p>
+                </div>
 
             </div>
 
 
+            <div class="user-count">
+
+                @(users?.Count ?? 0)
+
+                <span>
+                    Users
+                </span>
+
+            </div>
+
+        </div>
 
 
-            @if (users != null)
+        <div class="user-table-container">
+
+            @if (users == null)
             {
+                <div class="loading-state">
 
+                    <div class="spinner-border text-primary"
+                         role="status">
 
+                        <span class="visually-hidden">
+                            Loading...
+                        </span>
+
+                    </div>
+
+                    <p>
+                        Loading users...
+                    </p>
+
+                </div>
+            }
+            else if (users.Count == 0)
+            {
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        👤
+                    </div>
+
+                    <h3>
+                        No users found
+                    </h3>
+
+                    <p>
+                        Create a user to get started.
+                    </p>
+
+                </div>
+            }
+            else
+            {
                 <div class="table-responsive">
 
+                    <table class="table user-table">
 
-                    <table class="table table-hover align-middle">
-
-
-                        <thead class="table-dark">
-
+                        <thead>
 
                             <tr>
 
                                 <th>
-                                    Id
+                                    ID
                                 </th>
 
                                 <th>
-                                    Name
+                                    User
                                 </th>
 
                                 <th>
@@ -214,66 +258,79 @@
 
                             </tr>
 
-
                         </thead>
-
 
 
                         <tbody>
 
-
                             @foreach (User user in users)
                             {
-
                                 <tr>
 
                                     <td>
-                                        @user.Id
-                                    </td>
-
-
-                                    <td class="fw-semibold">
-                                        @user.Name
+                                        <span class="user-id">
+                                            #@user.Id
+                                        </span>
                                     </td>
 
 
                                     <td>
 
-                                        <span class="badge bg-secondary rounded-pill">
+                                        <div class="user-cell">
 
-                                            @user.RoleName
+                                            <div class="user-avatar">
+                                                @(
+                                                    string.IsNullOrWhiteSpace(user.Name)
+                                                        ? "?"
+                                                        : user.Name.Substring(0, 1).ToUpper()
+                                                )
+                                            </div>
 
-                                        </span>
+                                            <span class="user-name">
+                                                @user.Name
+                                            </span>
+
+                                        </div>
 
                                     </td>
 
 
+                                    <td>
+
+                                        @if (user.Level == 2)
+                                        {
+                                            <span class="role-badge administrator">
+                                                Administrator
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="role-badge standard-user">
+                                                User
+                                            </span>
+                                        }
+
+                                    </td>
+
                                 </tr>
-
                             }
-
 
                         </tbody>
 
-
                     </table>
 
-
                 </div>
-
-
             }
-
 
         </div>
 
-
     </div>
-
 
 </div>
 
+
 @code {
+
     [SupplyParameterFromForm]
     private CreateUserModel createModel { get; set; } = new();
 
@@ -281,8 +338,11 @@
     private HttpContext? HttpContext { get; set; }
 
     private List<User>? users;
+
     private string? message;
+
     private bool isError;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -293,18 +353,29 @@
 
         if (HttpContext.Request.Method == HttpMethods.Post)
         {
-            var result = await AuthService.CreateUserAsync(createModel.Name ?? "", createModel.Password ?? "", createModel.Level);
+            var result = await AuthService.CreateUserAsync(
+                createModel.Name ?? "",
+                createModel.Password ?? "",
+                createModel.Level
+            );
+
             isError = !result.Success;
-            message = result.Success ? $"User '{createModel.Name}' created." : result.Error;
+
+            message = result.Success
+                ? $"User '{createModel.Name}' created."
+                : result.Error;
         }
 
         users = await AuthService.ListUsersAsync();
     }
 
+
     private class CreateUserModel
     {
         public string? Name { get; set; }
+
         public string? Password { get; set; }
+
         public int Level { get; set; } = 1;
     }
 }

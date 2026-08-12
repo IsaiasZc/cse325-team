@@ -11,447 +11,422 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.EntityFrameworkCore
 
-
-
 <PageTitle>Transfer Management</PageTitle>
 
+<div class="transfer-page">
 
-<div class="container-fluid py-4 transfer-page">
+    <!-- Page Header -->
+    <div class="transfer-header">
+        <div>
+            <div class="page-eyebrow">
+                INVENTORY OPERATIONS
+            </div>
 
+            <h1>Transfer Management</h1>
 
-    <!-- Header -->
-    <div class="mb-4">
+            <p>
+                Create, edit and manage inventory transfers across locations.
+            </p>
+        </div>
 
-        <h1 class="fw-bold text-dark">
-            Transfer Management
-        </h1>
+        <div class="transfer-summary">
+            <div class="summary-icon">
+                ↔
+            </div>
 
-        <p class="text-muted">
-            Create, edit and manage inventory transfers.
-        </p>
-
+            <div>
+                <span class="summary-label">Total Transfers</span>
+                <strong>@transfers.Count</strong>
+            </div>
+        </div>
     </div>
 
 
+    
+    <div class="transfer-card form-card">
 
-    <!-- Transfer Form Card -->
-    <div class="card shadow-sm border-0 rounded-4 mb-5">
+        <div class="card-header-custom">
+            <div class="card-title-section">
+
+                <div class="card-icon">
+                    @(isEditing ? "✎" : "+")
+                </div>
+
+                <div>
+                    <h2>
+                        @(isEditing ? "Edit Transfer" : "Create New Transfer")
+                    </h2>
+
+                    <p>
+                        @(isEditing
+                            ? "Update the details of this inventory transfer."
+                            : "Enter the details below to create a new inventory transfer.")
+                    </p>
+                </div>
+
+            </div>
+        </div>
 
 
-        <div class="card-body p-4">
-
-
-            <h4 class="mb-4 fw-semibold">
-
-                @(isEditing ? "Edit Transfer" : "Create New Transfer")
-
-            </h4>
-
-
+        <div class="card-content">
 
             <EditForm Model="@newTransfer"
                       OnSubmit="SaveTransfer"
                       FormName="transferForm">
 
-
                 <DataAnnotationsValidator />
 
-
-                <div class="row g-3">
-
+                <div class="transfer-form-grid">
 
                     <!-- Product -->
+                    <div class="form-field">
 
-                    <div class="col-md-4">
-
-                        <label class="form-label fw-semibold">
+                        <label class="form-label">
                             Product
+                            <span class="required">*</span>
                         </label>
 
-
-                        <InputSelect class="form-select shadow-sm"
+                        <InputSelect class="form-select enterprise-input"
                                      @bind-Value="newTransfer.ProductId">
-
 
                             <option value="0">
                                 Select Product
                             </option>
 
-
-                            @foreach(var product in products)
+                            @foreach (var product in products)
                             {
                                 <option value="@product.Id">
                                     @product.Name
                                 </option>
                             }
 
-
                         </InputSelect>
-
 
                     </div>
 
 
+                    
+                    <div class="form-field">
 
-
-                    <!-- Location -->
-
-                    <div class="col-md-4">
-
-
-                        <label class="form-label fw-semibold">
+                        <label class="form-label">
                             Location
+                            <span class="required">*</span>
                         </label>
 
-
-                        <InputSelect class="form-select shadow-sm"
+                        <InputSelect class="form-select enterprise-input"
                                      @bind-Value="newTransfer.LocationId">
-
 
                             <option value="0">
                                 Select Location
                             </option>
 
-
-                            @foreach(var location in locations)
+                            @foreach (var location in locations)
                             {
                                 <option value="@location.Id">
                                     @location.Name
                                 </option>
                             }
 
-
                         </InputSelect>
 
-
                     </div>
-
-
 
 
                     <!-- Quantity -->
+                    <div class="form-field">
 
-                    <div class="col-md-4">
-
-
-                        <label class="form-label fw-semibold">
+                        <label class="form-label">
                             Quantity
+                            <span class="required">*</span>
                         </label>
 
-
-                        <InputNumber class="form-control shadow-sm"
+                        <InputNumber class="form-control enterprise-input"
                                      @bind-Value="newTransfer.Quantity" />
 
-
                     </div>
-
 
                 </div>
 
 
+                
+                <div class="form-actions">
 
-                <div class="mt-4">
-
-
-                    <button class="btn btn-primary px-4 rounded-pill shadow-sm"
+                    <button class="btn btn-primary enterprise-primary"
                             type="submit">
 
-
-                        @if(isEditing)
-                        {
-                            <span>
-                                Update Transfer
-                            </span>
-                        }
-                        else
-                        {
-                            <span>
-                                Add Transfer
-                            </span>
-                        }
-
+                        <span>
+                            @(isEditing ? "Update Transfer" : "Add Transfer")
+                        </span>
 
                     </button>
 
 
-                    @if(isEditing)
+                    @if (isEditing)
                     {
-
                         <button type="button"
-                                class="btn btn-secondary ms-2 px-4 rounded-pill"
+                                class="btn enterprise-secondary"
                                 @onclick="() => { newTransfer = new TransferEntity(); isEditing=false; }">
-
 
                             Cancel
 
-
                         </button>
-
                     }
 
-
                 </div>
-
-
 
             </EditForm>
 
-
         </div>
-
 
     </div>
 
 
 
+    <div class="transfer-card">
 
+        <div class="card-header-custom">
 
-    
+            <div class="card-title-section">
 
-    <div class="card shadow-sm border-0 rounded-4">
-
-
-        <div class="card-body p-4">
-
-
-            <div class="d-flex justify-content-between align-items-center mb-3">
-
-
-                <h4 class="fw-semibold mb-0">
-                    Existing Transfers
-                </h4>
-
-
-                <span class="badge bg-primary rounded-pill">
-
-                    @transfers.Count Transfers
-
-                </span>
-
-
-            </div>
-
-
-
-
-            @if(transfers.Count == 0)
-            {
-
-                <div class="alert alert-info">
-
-                    No transfers found.
-
+                <div class="card-icon blue-icon">
+                    ≡
                 </div>
 
-            }
-
-            else
-            {
-
-
-            <div class="table-responsive">
-
-
-            <table class="table table-hover align-middle">
-
-
-            <thead class="table-dark">
-
-
-            <tr>
-
-            <th>Product</th>
-
-            <th>Location</th>
-
-            <th>Quantity</th>
-
-            <th>Modified By</th>
-
-            <th>Date</th>
-
-            <th class="text-center">
-                Actions
-            </th>
-
-
-            </tr>
-
-
-            </thead>
-
-
-
-            <tbody>
-
-
-            @foreach(var transfer in transfers)
-            {
-
-
-            <tr>
-
-
-            <td class="fw-semibold">
-
-                @transfer.Product?.Name
-
-            </td>
-
-
-
-            <td>
-
-                @transfer.Location?.Name
-
-            </td>
-
-
-
-            <td>
-
-                <span class="badge bg-secondary">
-                    @transfer.Quantity
-                </span>
-
-            </td>
-
-
-
-            <td>
-
-                @transfer.ModifiedByUser?.Name
-
-            </td>
-
-
-
-            <td>
-
-                @transfer.ModifiedDate.ToString("dd MMM yyyy")
-
-            </td>
-
-
-
-            <td class="text-center">
-
-
-                <button class="btn btn-outline-warning btn-sm rounded-pill me-2"
-                        @onclick="() => EditTransfer(transfer)">
-
-
-                    Edit
-
-
-                </button>
-
-
-
-                <button class="btn btn-outline-danger btn-sm rounded-pill"
-                        @onclick="() => DeleteTransfer(transfer.Id)">
-
-
-                    Delete
-
-
-                </button>
-
-
-            </td>
-
-
-            </tr>
-
-
-            }
-
-
-            </tbody>
-
-
-            </table>
-
+                <div>
+                    <h2>Existing Transfers</h2>
+
+                    <p>
+                        View and manage current inventory transfers.
+                    </p>
+                </div>
 
             </div>
 
-
-            }
-
+            <div class="transfer-count">
+                @transfers.Count
+                <span>Transfers</span>
+            </div>
 
         </div>
 
 
-    </div>
+        <div class="table-container">
 
+            @if (transfers.Count == 0)
+            {
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        ↔
+                    </div>
+
+                    <h3>No transfers found</h3>
+
+                    <p>
+                        There are currently no inventory transfers to display.
+                    </p>
+
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+
+                    <table class="table enterprise-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Product</th>
+                                <th>Location</th>
+                                <th>Quantity</th>
+                                <th>Modified By</th>
+                                <th>Date</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            @foreach (var transfer in transfers)
+                            {
+                                <tr>
+
+                                    <td>
+
+                                        <div class="product-cell">
+
+                                            <div class="product-avatar">
+                                                @(
+                                                    string.IsNullOrWhiteSpace(transfer.Product?.Name)
+                                                        ? "?"
+                                                        : transfer.Product.Name.Substring(0, 1).ToUpper()
+                                                )
+                                            </div>
+
+                                            <span class="product-name">
+                                                @transfer.Product?.Name
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        <span class="location-text">
+                                            @transfer.Location?.Name
+                                        </span>
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="quantity-badge">
+                                            @transfer.Quantity
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="user-cell">
+
+                                            <div class="user-avatar">
+                                                @(
+                                                    string.IsNullOrWhiteSpace(transfer.ModifiedByUser?.Name)
+                                                        ? "?"
+                                                        : transfer.ModifiedByUser.Name.Substring(0, 1).ToUpper()
+                                                )
+                                            </div>
+
+                                            <span>
+                                                @transfer.ModifiedByUser?.Name
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="date-text">
+                                            @transfer.ModifiedDate.ToString("dd MMM yyyy")
+                                        </span>
+
+                                    </td>
+
+
+                                    <td class="text-end">
+
+                                        <div class="action-buttons">
+
+                                            <button class="btn action-edit"
+                                                    @onclick="() => EditTransfer(transfer)">
+
+                                                Edit
+
+                                            </button>
+
+
+                                            <button class="btn action-delete"
+                                                    @onclick="() => DeleteTransfer(transfer.Id)">
+
+                                                Delete
+
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
 
 </div>
 
+
 @code {
-private TransferEntity newTransfer = new();
-private bool isEditing = false;
-private List<Product> products = new();
-private List<Location> locations = new();
-private List<TransferEntity> transfers = new();
-protected override async Task OnInitializedAsync()
-{
-products = await Db.Products
-    .ToListAsync();
+
+    private TransferEntity newTransfer = new();
+    private bool isEditing = false;
+
+    private List<Product> products = new();
+    private List<Location> locations = new();
+    private List<TransferEntity> transfers = new();
 
 
-locations = await Db.Locations
-    .OrderBy(x => x.Name)
-    .ToListAsync();
+    protected override async Task OnInitializedAsync()
+    {
+        products = await Db.Products
+            .ToListAsync();
+
+        locations = await Db.Locations
+            .OrderBy(x => x.Name)
+            .ToListAsync();
+
+        transfers = await TransferService
+            .GetTransfersAsync();
+    }
 
 
-transfers = await TransferService
-    .GetTransfersAsync();
-}
-private async Task SaveTransfer()
-{
-if (isEditing)
-{
-    await TransferService
-        .UpdateTransferAsync(newTransfer);
-}
-else
-{
-    await TransferService
-        .CreateTransferAsync(newTransfer);
-}
+    private async Task SaveTransfer()
+    {
+        if (isEditing)
+        {
+            await TransferService
+                .UpdateTransferAsync(newTransfer);
+        }
+        else
+        {
+            await TransferService
+                .CreateTransferAsync(newTransfer);
+        }
+
+        transfers = await TransferService
+            .GetTransfersAsync();
+
+        newTransfer = new TransferEntity();
+
+        isEditing = false;
+    }
 
 
-transfers = await TransferService
-    .GetTransfersAsync();
+    private async Task DeleteTransfer(int id)
+    {
+        await TransferService
+            .DeleteTransferAsync(id);
+
+        transfers = await TransferService
+            .GetTransfersAsync();
+    }
 
 
-newTransfer = new TransferEntity();
+    private void EditTransfer(TransferEntity transfer)
+    {
+        newTransfer = new TransferEntity
+        {
+            Id = transfer.Id,
+            ProductId = transfer.ProductId,
+            LocationId = transfer.LocationId,
+            Quantity = transfer.Quantity
+        };
 
-isEditing = false;
-}
-private async Task DeleteTransfer(int id)
-{
-await TransferService
-    .DeleteTransferAsync(id);
-
-
-transfers = await TransferService
-    .GetTransfersAsync();
-}
-private void EditTransfer(TransferEntity transfer)
-{
-newTransfer = new TransferEntity
-{
-    Id = transfer.Id,
-
-    ProductId = transfer.ProductId,
-
-    LocationId = transfer.LocationId,
-
-    Quantity = transfer.Quantity
-};
-
-
-isEditing = true;
-}
+        isEditing = true;
+    }
 }

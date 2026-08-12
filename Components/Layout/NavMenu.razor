@@ -1,52 +1,50 @@
 ﻿@rendermode InteractiveServer
 
-<nav class="navbar navbar-expand-lg navbar-dark shadow-sm inventory-navbar">
+<nav class="navbar navbar-expand-lg navbar-dark inventory-navbar">
 
-    <div class="container-fluid">
+    <div class="container-fluid px-4">
 
 
-        <!-- Company Logo -->
+        <a class="navbar-brand fw-bold company-brand"
+           href="/">
 
-        <a class="navbar-brand fw-bold company-brand" href="">
-            <span class="brand-icon">
-                📦
-            </span>
-            Market Inventory
+            <span class="brand-icon">📦</span>
+
+            <span>Market Inventory</span>
+
         </a>
 
 
+       
 
-        <!-- Mobile Button -->
-
-        <button class="navbar-toggler"
+        <button class="navbar-toggler border-0"
                 type="button"
-                @onclick="ToggleMenu">
+                @onclick="ToggleMenu"
+                aria-label="Toggle navigation">
 
             <span class="navbar-toggler-icon"></span>
 
         </button>
 
 
-
-        <!-- Navigation -->
+      
 
         <div class="@(menuOpen ? "navbar-collapse show" : "navbar-collapse collapse")">
 
-
-            <ul class="navbar-nav ms-auto align-items-lg-center">
-
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
 
                 <AuthorizeView>
 
-
                     <Authorized>
 
+                     
 
                         <li class="nav-item">
 
                             <NavLink class="nav-link"
-                                     href=""
-                                     Match="NavLinkMatch.All">
+                                     href="/"
+                                     Match="NavLinkMatch.All"
+                                     ActiveClass="active-page">
 
                                 Home
 
@@ -55,11 +53,13 @@
                         </li>
 
 
+                       
 
                         <li class="nav-item">
 
                             <NavLink class="nav-link"
-                                     href="transfers">
+                                     href="/transfers"
+                                     ActiveClass="active-page">
 
                                 Transfer List
 
@@ -68,15 +68,16 @@
                         </li>
 
 
+                        
 
                         <AuthorizeView Roles="@Roles.Administrator"
                                       Context="adminContext">
 
-
                             <li class="nav-item">
 
                                 <NavLink class="nav-link"
-                                         href="users">
+                                         href="/users"
+                                         ActiveClass="active-page">
 
                                     Users
 
@@ -84,70 +85,55 @@
 
                             </li>
 
-
                         </AuthorizeView>
 
 
+                        <!-- Logout -->
 
-
-                        <li class="nav-item ms-lg-3">
-
+                        <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
 
                             <a class="btn btn-danger logout-btn"
-                               href="logout">
+                               href="/logout">
 
                                 Logout
 
                             </a>
 
-
                         </li>
-
-
 
                     </Authorized>
 
 
-
                     <NotAuthorized>
 
-
-                        <li class="nav-item">
+                        <li class="nav-item mt-2 mt-lg-0">
 
                             <NavLink class="btn btn-primary login-btn"
-                                     href="login">
+                                     href="/login"
+                                     ActiveClass="active-login">
 
                                 Login
 
                             </NavLink>
 
-
                         </li>
-
 
                     </NotAuthorized>
 
-
                 </AuthorizeView>
-
 
             </ul>
 
-
         </div>
-
 
     </div>
 
-
 </nav>
-
 
 
 @code {
 
     private bool menuOpen = false;
-
 
     private void ToggleMenu()
     {

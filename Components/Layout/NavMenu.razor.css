@@ -1,179 +1,197 @@
-/* Whole navigation */
+/* =========================================================
+   INVENTORY NAVBAR
+   ========================================================= */
 
-.navegation {
+.inventory-navbar {
+    min-height: 72px;
 
-    width:100%;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+    background: linear-gradient(
+        135deg,
+        #111827,
+        #1e293b
+    );
 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+
+    padding: 0.65rem 0;
 }
 
 
-/* Company name */
+/* =========================================================
+   BRAND
+   ========================================================= */
 
-.company-name-container {
+.company-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
 
-    display:flex;
-    align-items:center;
+    color: #ffffff !important;
 
+    font-size: 1.35rem;
+    letter-spacing: -0.3px;
+
+    text-decoration: none;
+}
+
+.company-brand:hover {
+    color: #ffffff !important;
+}
+
+.brand-icon {
+    font-size: 1.25rem;
 }
 
 
-.company-name {
+/* =========================================================
+   NAVIGATION LINKS
+   ========================================================= */
 
-    color:white;
-    font-size:1.4rem;
-    font-weight:700;
-    text-decoration:none;
-    letter-spacing:.5px;
+.inventory-navbar .nav-link {
+    position: relative;
 
+    display: flex;
+    align-items: center;
+
+    min-height: 42px;
+
+    padding: 0.55rem 0.9rem !important;
+
+    color: #cbd5e1 !important;
+
+    border-radius: 8px;
+
+    font-size: 0.95rem;
+    font-weight: 500;
+
+    text-decoration: none;
+
+    transition:
+        color 0.15s ease,
+        background-color 0.15s ease;
 }
 
 
+/* Hover */
 
-/* Menu */
+.inventory-navbar .nav-link:hover {
+    color: #ffffff !important;
 
-.nav-menu {
-
-    display:flex;
-    align-items:center;
-    gap:1rem;
-
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
 
+/* =========================================================
+   ACTIVE PAGE
+   ========================================================= */
 
-.nav-menu div {
+.inventory-navbar .nav-link.active {
+    color: #ffffff !important;
 
-    background:none;
-    padding:0;
+    background-color: rgba(37, 99, 235, 0.25);
 
+    font-weight: 600;
 }
 
 
+/* Active blue indicator */
 
-/* Links */
+.inventory-navbar .nav-link.active::after {
+    content: "";
 
-.nav-link {
+    position: absolute;
 
-    color:#e5e7eb;
-    text-decoration:none;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 3px;
 
-    padding:.65rem 1.2rem;
+    height: 2px;
 
-    border-radius:12px;
+    background-color: #60a5fa;
 
-    font-weight:500;
-
-    transition:.2s;
-
+    border-radius: 999px;
 }
 
 
+/* =========================================================
+   LOGIN BUTTON
+   ========================================================= */
 
-.nav-link:hover {
+.login-btn {
+    min-width: 85px;
 
-    background:#334155;
-    color:white;
+    padding: 0.55rem 1.15rem;
 
+    border-radius: 8px;
+
+    font-weight: 600;
 }
 
 
+/* =========================================================
+   LOGOUT BUTTON
+   ========================================================= */
 
-.nav-link.active {
+.logout-btn {
+    min-width: 85px;
 
-    background:#2563eb;
-    color:white;
+    padding: 0.55rem 1.15rem;
 
+    border-radius: 8px;
+
+    font-weight: 600;
+
+    border: 1px solid #dc3545;
 }
 
 
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
 
-/* Logout */
+.navbar-toggler {
+    padding: 0.4rem 0.55rem;
+}
 
-.nav-menu a[href="logout"] {
-
-
-    background:#ef4444;
-
-    color:white;
-
-    border-radius:999px;
-
+.navbar-toggler:focus {
+    box-shadow: none;
 }
 
 
+/* =========================================================
+   MOBILE
+   ========================================================= */
 
-.nav-menu a[href="logout"]:hover {
+@media (max-width: 991.98px) {
 
-    background:#dc2626;
-
-}
-
-
-
-/* Mobile button */
-
-.hamburger {
-
-    display:none;
-
-    background:none;
-
-    border:none;
-
-    color:white;
-
-    font-size:30px;
-
-}
-
-
-
-@media(max-width:768px){
-
-
-    .hamburger {
-
-        display:block;
-
+    .inventory-navbar {
+        padding: 0.75rem 0;
     }
 
-
-    .nav-menu {
-
-        display:none;
-
-        position:absolute;
-
-        top:70px;
-
-        left:0;
-
-        width:100%;
-
-        background:#111827;
-
-        padding:1rem;
-
-        flex-direction:column;
-
+    .inventory-navbar .navbar-collapse {
+        padding-top: 0.75rem;
     }
 
+    .inventory-navbar .nav-link {
+        width: 100%;
 
-    .nav-menu.open {
-
-        display:flex;
-
+        padding: 0.7rem 0.85rem !important;
     }
 
+    .inventory-navbar .nav-link.active::after {
+        left: 0.85rem;
+        right: auto;
 
-    .nav-link {
+        width: 35px;
 
-        width:100%;
-        text-align:center;
+        bottom: 5px;
+    }
 
+    .logout-btn,
+    .login-btn {
+        width: 100%;
+
+        margin-top: 0.25rem;
     }
 
 }

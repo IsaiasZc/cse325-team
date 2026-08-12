@@ -6,66 +6,98 @@
 
 <PageTitle>Product Management</PageTitle>
 
+<div class="product-page">
 
-<div class="container-fluid py-4">
+    
+    <div class="product-header">
 
+        <div>
+            <div class="page-eyebrow">
+                INVENTORY MANAGEMENT
+            </div>
 
-    <!-- Page Header -->
+            <h1>Product Management</h1>
 
-    <div class="mb-4">
+            <p>
+                Create, edit and manage inventory products.
+            </p>
+        </div>
 
-        <h1 class="fw-bold text-dark">
-            Product Management
-        </h1>
+        <div class="product-summary">
+            <div class="summary-icon">
+                📦
+            </div>
 
-        <p class="text-muted">
-            Create, edit and manage inventory products.
-        </p>
+            <div>
+                <span class="summary-label">Total Products</span>
+                <strong>@products.Count</strong>
+            </div>
+        </div>
 
     </div>
 
 
+    
+    <div class="product-card search-card">
 
-    <!-- Search -->
+        <div class="card-content">
 
-    <div class="card shadow-sm border-0 rounded-4 mb-4">
-
-        <div class="card-body p-4">
-
-            <label for="product-search"
-                   class="form-label fw-semibold">
-
+            <label for="product-search" class="form-label">
                 Search Inventory
-
             </label>
 
-            <input id="product-search"
-                   type="search"
-                   class="form-control shadow-sm rounded-3"
-                   placeholder="Search products by name..."
-                   aria-label="Search inventory by product name"
-                   @bind="searchTerm"
-                   @bind:event="oninput" />
+            <div class="search-input-wrapper">
+
+                <span class="search-icon">
+                    🔍
+                </span>
+
+                <input id="product-search"
+                       type="search"
+                       class="form-control product-input search-input"
+                       placeholder="Search products by name..."
+                       aria-label="Search inventory by product name"
+                       @bind="searchTerm"
+                       @bind:event="oninput" />
+
+            </div>
 
         </div>
 
     </div>
 
 
+    
+    <div class="product-card form-card">
 
-    <!-- Product Form -->
+        <div class="card-header-custom">
 
-    <div class="card shadow-sm border-0 rounded-4 mb-5">
+            <div class="card-title-section">
 
-        <div class="card-body p-4">
+                <div class="card-icon">
+                    @(isEditing ? "✎" : "+")
+                </div>
 
-            <h4 class="fw-semibold mb-4">
+                <div>
 
-                @(isEditing ? "Edit Product" : "Create New Product")
+                    <h2>
+                        @(isEditing ? "Edit Product" : "Create New Product")
+                    </h2>
 
-            </h4>
+                    <p>
+                        @(isEditing
+                            ? "Update the details of this product."
+                            : "Enter the details below to create a new inventory product.")
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
 
 
+        <div class="card-content">
 
             <EditForm Model="@newProduct"
                       OnSubmit="@CreateProduct"
@@ -73,116 +105,95 @@
 
                 <DataAnnotationsValidator />
 
-
-
-                <div class="row g-3">
-
+                <div class="product-form-grid">
 
                     <!-- Name -->
+                    <div class="form-field">
 
-                    <div class="col-md-6">
-
-                        <label for="name"
-                               class="form-label fw-semibold">
-
-                            Name
-
+                        <label for="name" class="form-label">
+                            Product Name
+                            <span class="required">*</span>
                         </label>
 
                         <InputText id="name"
-                                   class="form-control shadow-sm rounded-3"
+                                   class="form-control product-input"
+                                   placeholder="Enter product name"
                                    @bind-Value="newProduct.Name" />
 
                     </div>
 
 
+                    
+                    <div class="form-field">
 
-                    <!-- Price -->
-
-                    <div class="col-md-6">
-
-                        <label for="price"
-                               class="form-label fw-semibold">
-
+                        <label for="price" class="form-label">
                             Price
-
+                            <span class="required">*</span>
                         </label>
 
                         <InputNumber id="price"
-                                     class="form-control shadow-sm rounded-3"
+                                     class="form-control product-input"
+                                     placeholder="0.00"
                                      @bind-Value="newProduct.Price" />
 
                     </div>
 
 
+                    
+                    <div class="form-field full-width">
 
-                    <!-- Description -->
-
-                    <div class="col-12">
-
-                        <label for="description"
-                               class="form-label fw-semibold">
-
+                        <label for="description" class="form-label">
                             Description
-
                         </label>
 
                         <InputTextArea id="description"
-                                       class="form-control shadow-sm rounded-3"
-                                       rows="4"
+                                       class="form-control product-input"
+                                       rows="3"
+                                       placeholder="Enter a short product description..."
                                        @bind-Value="newProduct.Description" />
 
                     </div>
 
 
+                    
+                    <div class="form-field full-width">
 
-                    <!-- Image URL -->
-
-                    <div class="col-12">
-
-                        <label for="imageUrl"
-                               class="form-label fw-semibold">
-
+                        <label for="imageUrl" class="form-label">
                             Image URL
-
                         </label>
 
                         <InputText id="imageUrl"
-                                   class="form-control shadow-sm rounded-3"
+                                   class="form-control product-input"
+                                   placeholder="https://example.com/image.jpg"
                                    @bind-Value="newProduct.ImageUrl" />
 
                     </div>
 
-
                 </div>
 
 
-
-                <div class="mt-4">
+                
+                <div class="form-actions">
 
                     <button type="submit"
-                            class="btn btn-primary px-4 rounded-pill shadow-sm">
+                            class="btn product-primary">
 
                         @(isEditing ? "Update Product" : "Add Product")
 
                     </button>
 
-
                     @if (isEditing)
                     {
-
                         <button type="button"
-                                class="btn btn-secondary px-4 rounded-pill ms-2"
+                                class="btn product-secondary"
                                 @onclick="CancelEdit">
 
                             Cancel
 
                         </button>
-
                     }
 
                 </div>
-
 
             </EditForm>
 
@@ -191,144 +202,137 @@
     </div>
 
 
-
-
-    <!-- Product Results -->
-
+   
     @if (filteredProducts.Any())
     {
+        <div class="products-section">
 
-        <div class="row g-4">
+            <div class="section-heading">
 
+                <div>
+                    <h2>Inventory Products</h2>
 
-            @foreach (Product product in filteredProducts)
-            {
+                    <p>
+                        Current products available in your inventory.
+                    </p>
+                </div>
 
-                <div class="col-sm-6 col-lg-4 col-xl-3">
+                <div class="product-count">
+                    @filteredProducts.Count()
+                    <span>Products</span>
+                </div>
 
-
-                    <div class="card h-100 shadow-sm border-0 rounded-4">
-
-
-                        <!-- Product Image -->
-
-                        <img src="@product.ImageUrl"
-                             class="card-img-top rounded-top-4"
-                             alt="Image of @product.Name"
-                             style="height:220px; object-fit:cover;" />
-
+            </div>
 
 
-                        <!-- Product Information -->
+            <div class="product-grid">
 
-                        <div class="card-body">
+                @foreach (Product product in filteredProducts)
+                {
+                    <div class="product-card product-item">
 
-                            <h5 class="card-title fw-bold">
+                        <!-- Image -->
+                        <div class="product-image-wrapper">
 
-                                @product.Name
-
-                            </h5>
-
-
-                            <p class="card-text text-muted">
-
-                                @product.Description
-
-                            </p>
-
-
-                            <h5 class="text-primary fw-bold">
-
-                                @product.GetFormattedPrice()
-
-                            </h5>
+                            @if (!string.IsNullOrWhiteSpace(product.ImageUrl))
+                            {
+                                <img src="@product.ImageUrl"
+                                     class="product-image"
+                                     alt="Image of @product.Name" />
+                            }
+                            else
+                            {
+                                <div class="product-image-placeholder">
+                                    📦
+                                </div>
+                            }
 
                         </div>
 
 
+                        
+                        <div class="product-body">
 
-                        <!-- Actions -->
+                            <div class="product-name-row">
 
-                        <div class="card-footer bg-white border-0 p-3">
+                                <h3>
+                                    @product.Name
+                                </h3>
+
+                            </div>
+
+                            <p class="product-description">
+                                @(string.IsNullOrWhiteSpace(product.Description)
+                                    ? "No description available."
+                                    : product.Description)
+                            </p>
+
+                            <div class="product-price">
+                                @product.GetFormattedPrice()
+                            </div>
+
+                        </div>
 
 
-                            <button class="btn btn-outline-primary rounded-pill me-2"
+                        
+                        <div class="product-actions">
+
+                            <button class="btn action-edit"
                                     @onclick="@(() => EditProduct(product))">
 
                                 Edit
 
                             </button>
 
-
-                            <button class="btn btn-outline-danger rounded-pill"
+                            <button class="btn action-delete"
                                     @onclick="@(() => DeleteProduct(product.Id))">
 
                                 Delete
 
                             </button>
 
-
                         </div>
 
-
                     </div>
+                }
 
-                </div>
-
-            }
-
+            </div>
 
         </div>
-
     }
     else if (!string.IsNullOrWhiteSpace(searchTerm))
     {
+        <div class="product-card empty-state">
 
-        <!-- No Search Results -->
-
-        <div class="card shadow-sm border-0 rounded-4">
-
-            <div class="card-body p-4 text-center">
-
-                <h5 class="fw-semibold">
-                    No products found
-                </h5>
-
-                <p class="text-muted mb-0">
-
-                    No products match
-                    "<strong>@searchTerm</strong>".
-
-                </p>
-
+            <div class="empty-icon">
+                🔍
             </div>
 
-        </div>
+            <h3>No products found</h3>
 
+            <p>
+                No products match
+                "<strong>@searchTerm</strong>".
+            </p>
+
+        </div>
     }
     else
     {
+        <div class="product-card empty-state">
 
-        <!-- No Products -->
-
-        <div class="card shadow-sm border-0 rounded-4">
-
-            <div class="card-body p-4 text-center">
-
-                <h5 class="fw-semibold">
-                    No products available
-                </h5>
-
-                <p class="text-muted mb-0">
-                    Create a product to get started.
-                </p>
-
+            <div class="empty-icon">
+                📦
             </div>
 
+            <h3>No products available</h3>
+
+            <p>
+                Create a product to get started.
+            </p>
+
         </div>
-
     }
-
 
 </div>
 

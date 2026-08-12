@@ -1,150 +1,730 @@
+/* =========================================================
+   TRANSFER MANAGEMENT PAGE
+   ========================================================= */
+
 .transfer-page {
-    background-color: #f8f9fa;
-    min-height: 100vh;
-    padding: 20px;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 36px 48px;
+    background: #f8fafc;
+    min-height: calc(100vh - 70px);
+    box-sizing: border-box;
 }
 
 
-/* Page header */
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
 
-h1 {
-    color: #1f2937;
-    letter-spacing: -0.5px;
+.transfer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 28px;
+}
+
+.page-eyebrow {
+    margin-bottom: 8px;
+    color: #2563eb;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.transfer-header h1 {
+    margin: 0;
+    color: #172033;
+    font-size: 2.35rem;
+    font-weight: 750;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+}
+
+.transfer-header p {
+    margin: 10px 0 0;
+    color: #64748b;
+    font-size: 1rem;
 }
 
 
-p {
-    color: #6b7280;
+/* =========================================================
+   SUMMARY CARD
+   ========================================================= */
+
+.transfer-summary {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+
+    min-width: 190px;
+    padding: 16px 20px;
+
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+}
+
+.summary-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eff6ff;
+    color: #2563eb;
+
+    border-radius: 12px;
+
+    font-size: 1.45rem;
+    font-weight: 600;
+}
+
+.summary-label {
+    display: block;
+    margin-bottom: 3px;
+
+    color: #64748b;
+    font-size: 0.78rem;
+}
+
+.transfer-summary strong {
+    display: block;
+
+    color: #172033;
+    font-size: 1.35rem;
+    line-height: 1;
 }
 
 
+/* =========================================================
+   CARDS
+   ========================================================= */
 
-/* Cards */
+.transfer-card {
+    width: 100%;
+    margin-bottom: 24px;
 
-.card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
     border-radius: 16px;
-    transition: all 0.2s ease-in-out;
-}
 
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.045);
 
-.card:hover {
-    transform: translateY(-2px);
-}
-
-
-
-/* Form */
-
-.form-label {
-    color: #374151;
-}
-
-
-.form-control,
-.form-select {
-    border-radius: 12px;
-    padding: 10px 14px;
-    border: 1px solid #d1d5db;
-}
-
-
-.form-control:focus,
-.form-select:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 .2rem rgba(37,99,235,.15);
-}
-
-
-
-/* Buttons */
-
-.btn {
-    transition: all .2s ease;
-}
-
-
-.btn:hover {
-    transform: translateY(-1px);
-}
-
-
-.btn-primary {
-    background-color: #2563eb;
-    border-color: #2563eb;
-}
-
-
-.btn-primary:hover {
-    background-color: #1d4ed8;
-}
-
-
-
-/* Table */
-
-.table {
-    background-color: white;
-    border-radius: 12px;
     overflow: hidden;
 }
 
+.form-card {
+    margin-bottom: 24px;
+}
 
-.table thead th {
+
+/* =========================================================
+   CARD HEADER
+   ========================================================= */
+
+.card-header-custom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 22px 26px;
+
+    border-bottom: 1px solid #e9eef5;
+    background: #ffffff;
+}
+
+.card-title-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.card-icon {
+    width: 46px;
+    height: 46px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eff6ff;
+    color: #2563eb;
+
+    border-radius: 12px;
+
+    font-size: 1.55rem;
     font-weight: 600;
-    letter-spacing: .3px;
+}
+
+.blue-icon {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.card-title-section h2 {
+    margin: 0;
+
+    color: #172033;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.card-title-section p {
+    margin: 5px 0 0;
+
+    color: #64748b;
+    font-size: 0.9rem;
+    line-height: 1.4;
 }
 
 
-.table tbody tr {
-    transition: background-color .2s ease;
+/* =========================================================
+   FORM CONTENT
+   ========================================================= */
+
+.card-content {
+    padding: 18px 26px 20px;
+}
+
+.transfer-form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    width: 100%;
+}
+
+.form-field {
+    min-width: 0;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 6px;
+
+    color: #1e293b;
+    font-size: 0.88rem;
+    font-weight: 650;
+}
+
+.required {
+    color: #dc2626;
+    margin-left: 2px;
 }
 
 
-.table tbody tr:hover {
-    background-color: #f1f5f9;
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.enterprise-input {
+    width: 100%;
+    min-height: 42px;
+
+    padding: 8px 13px;
+
+    color: #172033;
+    background-color: #ffffff;
+
+    border: 1px solid #d7dee8;
+    border-radius: 9px;
+
+    font-size: 0.95rem;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        background-color 0.15s ease;
+}
+
+.enterprise-input:hover {
+    border-color: #b8c3d1;
+}
+
+.enterprise-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.enterprise-input::placeholder {
+    color: #94a3b8;
 }
 
 
+/* =========================================================
+   FORM ACTIONS
+   ========================================================= */
 
-/* Badges */
+.form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 
-.badge {
+    margin-top: 16px;
+}
+
+.enterprise-primary {
+    min-width: 145px;
+    padding: 9px 20px;
+
+    background: #2563eb;
+    border: 1px solid #2563eb;
+    border-radius: 9px;
+
+    color: #ffffff;
+    font-size: 0.92rem;
+    font-weight: 650;
+
+    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.2);
+
+    transition:
+        background-color 0.15s ease,
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.enterprise-primary:hover {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 5px 12px rgba(37, 99, 235, 0.25);
+}
+
+.enterprise-primary:active {
+    transform: translateY(0);
+}
+
+.enterprise-secondary {
+    min-width: 90px;
+    padding: 9px 18px;
+
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+
+    color: #475569;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.enterprise-secondary:hover {
+    background: #f8fafc;
+    border-color: #94a3b8;
+}
+
+
+/* =========================================================
+   TRANSFER COUNT
+   ========================================================= */
+
+.transfer-count {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+
     padding: 7px 12px;
-    font-size: .85rem;
+
+    background: #eff6ff;
+    border-radius: 20px;
+
+    color: #2563eb;
+    font-size: 0.95rem;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.transfer-count span {
+    font-size: 0.78rem;
+    font-weight: 600;
 }
 
 
+/* =========================================================
+   TABLE
+   ========================================================= */
 
-/* Action buttons */
+.table-container {
+    width: 100%;
+}
 
-.btn-outline-warning,
-.btn-outline-danger {
-    border-width: 2px;
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.enterprise-table {
+    width: 100%;
+    margin: 0;
+
+    border-collapse: collapse;
+
+    background: #ffffff;
+}
+
+.enterprise-table thead {
+    background: #f8fafc;
+}
+
+.enterprise-table thead th {
+    padding: 14px 20px;
+
+    color: #475569;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    font-size: 0.76rem;
+    font-weight: 700;
+
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+.enterprise-table tbody td {
+    padding: 15px 20px;
+
+    color: #475569;
+
+    border-bottom: 1px solid #eef2f7;
+
+    font-size: 0.9rem;
+
+    vertical-align: middle;
+}
+
+.enterprise-table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.enterprise-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.enterprise-table tbody tr:last-child td {
+    border-bottom: none;
 }
 
 
-.btn-outline-warning:hover {
-    color: white;
+/* =========================================================
+   PRODUCT CELL
+   ========================================================= */
+
+.product-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.product-avatar,
+.user-avatar {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.product-avatar {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.product-name {
+    color: #1e293b;
+    font-weight: 650;
 }
 
 
-.btn-outline-danger:hover {
-    color: white;
+/* =========================================================
+   LOCATION
+   ========================================================= */
+
+.location-text {
+    color: #475569;
 }
 
 
+/* =========================================================
+   QUANTITY
+   ========================================================= */
 
-/* Responsive */
+.quantity-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-@media (max-width: 768px) {
+    min-width: 38px;
+    padding: 5px 10px;
 
-    .card-body {
-        padding: 1rem !important;
+    background: #f1f5f9;
+    color: #334155;
+
+    border-radius: 7px;
+
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   USER CELL
+   ========================================================= */
+
+.user-cell {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    color: #475569;
+}
+
+.user-avatar {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+
+/* =========================================================
+   DATE
+   ========================================================= */
+
+.date-text {
+    color: #64748b;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
+
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 7px;
+}
+
+.action-edit,
+.action-delete {
+    padding: 6px 12px;
+
+    border-radius: 7px;
+
+    font-size: 0.8rem;
+    font-weight: 650;
+
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.action-edit {
+    color: #b45309;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+}
+
+.action-edit:hover {
+    color: #92400e;
+    background: #fef3c7;
+    border-color: #fcd34d;
+}
+
+.action-delete {
+    color: #dc2626;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+}
+
+.action-delete:hover {
+    color: #b91c1c;
+    background: #fee2e2;
+    border-color: #fca5a5;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.empty-state {
+    padding: 50px 24px;
+
+    text-align: center;
+}
+
+.empty-icon {
+    width: 54px;
+    height: 54px;
+
+    margin: 0 auto 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eff6ff;
+    color: #2563eb;
+
+    border-radius: 14px;
+
+    font-size: 1.5rem;
+}
+
+.empty-state h3 {
+    margin: 0 0 6px;
+
+    color: #1e293b;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.empty-state p {
+    margin: 0;
+
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+
+/* =========================================================
+   RESPONSIVE - TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .transfer-page {
+        padding: 26px 22px 40px;
     }
 
-
-    h1 {
-        font-size: 1.8rem;
+    .transfer-header {
+        align-items: flex-start;
+        flex-direction: column;
     }
 
+    .transfer-summary {
+        width: 100%;
+        max-width: 240px;
+    }
+
+    .transfer-form-grid {
+        grid-template-columns: 1fr;
+        gap: 17px;
+    }
+
+    .form-actions {
+        justify-content: flex-start;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .transfer-page {
+        padding: 20px 14px 32px;
+    }
+
+    .transfer-header {
+        margin-bottom: 20px;
+        gap: 18px;
+    }
+
+    .transfer-header h1 {
+        font-size: 1.85rem;
+    }
+
+    .transfer-header p {
+        font-size: 0.9rem;
+    }
+
+    .transfer-summary {
+        max-width: none;
+        width: 100%;
+    }
+
+    .card-header-custom {
+        padding: 18px;
+        align-items: flex-start;
+    }
+
+    .card-title-section {
+        gap: 11px;
+    }
+
+    .card-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.3rem;
+    }
+
+    .card-title-section h2 {
+        font-size: 1.05rem;
+    }
+
+    .card-title-section p {
+        font-size: 0.82rem;
+    }
+
+    .card-content {
+        padding: 18px;
+    }
+
+    .transfer-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .enterprise-primary,
+    .enterprise-secondary {
+        width: 100%;
+    }
+
+    .transfer-count {
+        font-size: 0.82rem;
+    }
+
+    .enterprise-table {
+        min-width: 850px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
 }
