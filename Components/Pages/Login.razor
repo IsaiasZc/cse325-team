@@ -7,9 +7,12 @@
 
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
 
-    <div class="card shadow-lg border-0 rounded-4 p-4" style="max-width: 420px; width:100%;">
+    <div class="card shadow-lg border-0 rounded-4 p-4"
+         style="max-width: 420px; width:100%;">
 
         <div class="card-body">
+
+            <!-- Header -->
 
             <div class="text-center mb-4">
 
@@ -24,6 +27,8 @@
             </div>
 
 
+            <!-- Error Message -->
+
             @if (error != null)
             {
                 <div class="alert alert-danger rounded-3">
@@ -32,16 +37,20 @@
             }
 
 
+            <!-- Login Form -->
 
-            <EditForm Model="model" method="post" FormName="login">
-
+            <EditForm Model="model"
+                      method="post"
+                      FormName="login">
 
                 <div class="mb-3">
 
-                    <label for="username" class="form-label fw-semibold">
-                        Username
-                    </label>
+                    <label for="username"
+                           class="form-label fw-semibold">
 
+                        Username
+
+                    </label>
 
                     <InputText id="username"
                                class="form-control form-control-lg rounded-3 shadow-sm"
@@ -51,14 +60,14 @@
                 </div>
 
 
-
-
                 <div class="mb-4">
 
-                    <label for="password" class="form-label fw-semibold">
-                        Password
-                    </label>
+                    <label for="password"
+                           class="form-label fw-semibold">
 
+                        Password
+
+                    </label>
 
                     <InputText id="password"
                                class="form-control form-control-lg rounded-3 shadow-sm"
@@ -69,6 +78,7 @@
                 </div>
 
 
+                <!-- Login Button -->
 
                 <button type="submit"
                         class="btn btn-primary btn-lg w-100 rounded-pill shadow-sm">
@@ -78,29 +88,54 @@
                 </button>
 
 
-            </EditForm>
+                <!-- Register Option -->
 
+                <div class="text-center mt-4">
+
+                    <span class="text-muted">
+                        Don't have an account?
+                    </span>
+
+                    <button type="button"
+                            class="btn btn-link text-decoration-none fw-semibold p-0 ms-1"
+                            onclick="window.location.href='/register'">
+
+                        Create new user
+
+                    </button>
+
+                </div>
+
+            </EditForm>
 
         </div>
 
     </div>
 
 </div>
+
+
 @code {
+
     [SupplyParameterFromForm]
     private LoginModel model { get; set; } = new();
+
 
     [CascadingParameter]
     private HttpContext? HttpContext { get; set; }
 
+
     private string? error;
+
 
     protected override async Task OnInitializedAsync()
     {
+
         if (HttpContext is null)
         {
             return;
         }
+
 
         if (HttpContext.User.Identity?.IsAuthenticated == true)
         {
@@ -108,42 +143,73 @@
             return;
         }
 
+
         if (HttpContext.Request.Method == HttpMethods.Post)
         {
-            User? user = await AuthService.AuthenticateAsync(model.UserName ?? "", model.Password ?? "");
+
+            User? user = await AuthService.AuthenticateAsync(
+                model.UserName ?? "",
+                model.Password ?? ""
+            );
+
+
             if (user is null)
             {
                 error = "Invalid username or password.";
                 return;
             }
 
-            await AuthService.SignInAsync(HttpContext, user);
 
-            string? returnUrl = HttpContext.Request.Query["returnUrl"].ToString();
+            await AuthService.SignInAsync(
+                HttpContext,
+                user
+            );
+
+
+            string? returnUrl =
+                HttpContext.Request.Query["returnUrl"].ToString();
+
+
             if (string.IsNullOrEmpty(returnUrl))
             {
-                returnUrl = HttpContext.Request.Query["ReturnUrl"].ToString();
+                returnUrl =
+                    HttpContext.Request.Query["ReturnUrl"].ToString();
             }
+
+
             if (!IsLocalUrl(returnUrl))
             {
                 returnUrl = "/";
             }
+
+
             NavigationManager.NavigateTo(returnUrl);
+
         }
+
     }
+
 
     private static bool IsLocalUrl(string? url)
     {
+
         if (string.IsNullOrEmpty(url) || url[0] != '/')
         {
             return false;
         }
-        return url.Length == 1 || (url[1] != '/' && url[1] != '\\');
+
+
+        return url.Length == 1 ||
+               (url[1] != '/' && url[1] != '\\');
+
     }
+
 
     private class LoginModel
     {
         public string? UserName { get; set; }
+
         public string? Password { get; set; }
     }
+
 }
